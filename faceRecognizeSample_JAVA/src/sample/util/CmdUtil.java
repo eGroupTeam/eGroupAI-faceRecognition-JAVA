@@ -1,102 +1,22 @@
 package sample.util;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CmdUtil {
+	private static final String TASKLIST = "tasklist";
+	private static final String KILL = "taskkill /F /IM ";
+	private static InputStreamReader INPUTSTREAMREADER = null;
+	private static BufferedReader BUFFEREDREADER = null;
 	
-//	public static void main(String args[]) {		
-//		// init variable
-//		final String RetrieveFace_ByCamPath = "F:/RetrieveFace_ByCam_Release_20171107/RetrieveFace_ByCam_Release_20171107/";
-//		
-//		final StringBuilder cmd = new StringBuilder("cd "+RetrieveFace_ByCamPath+" && C: && "
-//				+ "TrainFace list.txt eGroup/eGroup.Model eGroup/eGroup.Face");
-//		final List<String> commandList = new ArrayList<String>();
-//		commandList.add("cmd");
-//		commandList.add("/f");
-//		commandList.add(cmd.toString().replace("/", "/"));
-//		cmdProcessBuilder(commandList);
-//	}
-	
-	public void trainFace(String RetrieveFace_ByCamPath,String modelName) {
-		// init variable
-		File file = new File(RetrieveFace_ByCamPath+"/eGroup/"+modelName);
-		StringBuilder cmd = null;
-		if(file.exists()&&file.getTotalSpace()>0) {
-			cmd = new StringBuilder("cd "+RetrieveFace_ByCamPath+" && C: && "
-				+ "TrainFace -a list.txt eGroup/"+modelName+" eGroup/"+modelName);
-		}else {
-			cmd = new StringBuilder("cd "+RetrieveFace_ByCamPath+" && C: && "
-					+ "TrainFace list.txt eGroup/"+modelName+" eGroup/"+modelName);
-		}
-		System.out.println("trainFace cmd="+cmd);
-		if(cmd!=null) {
-			final List<String> commandList = new ArrayList<String>();
-			commandList.add("cmd");
-			commandList.add("/c");
-			commandList.add(cmd.toString().replace("/", "\\"));
-			System.out.println("commandList="+commandList);
-			cmdProcessBuilder(commandList);
-		}		
-	}
-	
-//	public void detectFace(String RetrieveFace_ByCamPath) {
-//		// init variable
-////		final String RetrieveFace_ByCamPath = "C:/Users/Daniel/Desktop/RetrieveFace_ByCam_Release_20171107/";
-//		
-//		File file = new File(RetrieveFace_ByCamPath+"/eGroup/eGroup.Model.binary");
-//		StringBuilder cmd = null;
-//		cmd = new StringBuilder("cd "+RetrieveFace_ByCamPath+" && C: && "
-//			+ "RetrieveFace_ByCam.exe -k 10 -t 0.4 -r 5 -s 720p -f output_frame -p "
-//			+ "output_face eGroup/eGroup.Model.binary eGroup/eGroup.Model.faceInfor output.json");
-//		if(cmd!=null) {
-//			final List<String> commandList = new ArrayList<String>();
-//			commandList.add("cmd");
-//			commandList.add("/c");
-//			commandList.add(cmd.toString().replace("/", "\\"));
-//			System.out.println("commandList="+commandList);
-//			cmdProcessBuilder(commandList);
-//		}		
-//	}
-	
-	public void retriveFace(String RetrieveFace_ByCamPath,String modelName,Double threshold,Integer rate,Integer resolution,Integer minFace,Integer inputSource) {
-		// init variable
-		final StringBuilder cmd = new StringBuilder("cd "+RetrieveFace_ByCamPath+" && C: && "
-			+ "RetrieveFace_ByCam.exe -k 10 -t "+threshold+" -r "+rate+" -s "+resolution + " -m "+minFace + " -c "+inputSource
-			+" -f output_frame -p output_face eGroup/"+modelName+".binary eGroup/"+modelName+".faceInfor output.json");
-		if(cmd!=null) {
-			final List<String> commandList = new ArrayList<String>();
-			commandList.add("cmd");
-			commandList.add("/c");
-			commandList.add(cmd.toString().replace("/", "\\"));
-			System.out.println("commandList="+commandList);
-			cmdProcessBuilder(commandList);
-		}		
-	}
-	
-	public void detectFace(String RetrieveFace_ByCamPath,String modelName,Double threshold,Integer rate,Integer resolution,Integer minFace,Integer inputSource) {
-		// init variable
-		final StringBuilder cmd = new StringBuilder("cd "+RetrieveFace_ByCamPath+" && C: && "
-			+ "RetrieveFace_ByCam.exe -k 10 -t "+ threshold +" -r "+rate +" -s "+resolution + " -m "+minFace + " -c "+inputSource
-			+" eGroup/"+modelName+".binary eGroup/"+modelName+".faceInfor output.json");
-		
-		if(cmd!=null) {
-			final List<String> commandList = new ArrayList<String>();
-			commandList.add("cmd");
-			commandList.add("/c");
-			commandList.add(cmd.toString().replace("/", "\\"));
-			System.out.println("commandList="+commandList);
-			cmdProcessBuilder(commandList);
-		}		
-	}
-	
-	
-	private static boolean cmdProcessBuilder(List<String> commandList) {
-		/* Read the output of command prompt */
+	/**
+	 * build command
+	 * @param commandList
+	 * @return
+	 */
+	protected static void cmdProcessBuilder(List<String> commandList) {
 		Process process = null;
 		InputStreamReader inputStreamReader = null;
 		BufferedReader bufferedreader = null;
@@ -107,29 +27,94 @@ public class CmdUtil {
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
-		 		
-		/* Read the output of command prompt */
+		}		 		
 		inputStreamReader = new InputStreamReader(process.getInputStream());
 		bufferedreader = new BufferedReader(inputStreamReader);
 		String line="";
 		try {
 			while ((line=bufferedreader.readLine()) != null) {}			
-		} catch (IOException e) {
+			if(process!=null) {
+				process.waitFor();
+				process.destroy();		
+			}
+			if(bufferedreader!=null) {
+				bufferedreader.close();
+			}
+			if(inputStreamReader!=null) {
+				inputStreamReader.close();
+			}
+			
+		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+	
+	/**
+	 * Delete process run by cmdUtil
+	 * @param processName - the process you want to kill that you create to windows like RetrieveFace_ByCam.exe
+	 */
+	protected static void cmdProcessTerminate(String processName){
+		// Detect the process run by cmd 
+		if (isProcessRunning(processName)) {
+			// Kill the process run by windows
+			killProcess(processName);
 		}		
 		try {
-			process.waitFor();
-		} catch (InterruptedException e) {
-		}		
-		process.destroy();		
-		try {
-			bufferedreader.close();
+			if(BUFFEREDREADER!=null) {
+				BUFFEREDREADER.close();				
+			}
+			if(INPUTSTREAMREADER!=null) {
+				INPUTSTREAMREADER.close();				
+			}
 		} catch (IOException e) {
-		}		
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Detect the process run by cmd 
+	 * @param serviceName 
+	 * @return boolean
+	 */
+	protected static boolean isProcessRunning(String serviceName) {
+		//Start the Process
+		Process process = null;
 		try {
-			inputStreamReader.close();
+			process = Runtime.getRuntime().exec(TASKLIST);
 		} catch (IOException e) {
-		}		
-		return true;
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Read and list the process run by windows
+		final BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+		String line;
+		try {
+			while ((line = reader.readLine()) != null) {
+//				System.out.println(line);
+				if (line.contains(serviceName)) {
+					return true;
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	/**
+	 * Kill the process run by windows
+	 * @param serviceName 
+	 */
+	protected static void killProcess(String serviceName) {
+		try {
+			Runtime.getRuntime().exec(KILL + serviceName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
