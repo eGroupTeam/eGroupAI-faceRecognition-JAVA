@@ -55,8 +55,17 @@ The FaceRecognize engine is the windows task ,the funtion make you can stop Face
 * Github : https://github.com/eGroupTeam
 
 
-Business Contact Info 
-Daniel 
-email : egroup.daniel@gmail.com
+Subscribe to the eGroup AI Channel
+
+https://ppt.cc/f78xjx
+
+
+【Contact Information】
+
+Website：https://www.egroup.com.tw
+
+Contact Person：Daniel 
+
+Email：egroup.daniel@gmail.com
 
 Powered By eGroup AI
