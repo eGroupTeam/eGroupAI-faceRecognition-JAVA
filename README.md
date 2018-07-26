@@ -46,11 +46,13 @@ The FaceRecognize engine is the windows task ,the funtion make you can stop Face
 * Official website : https://www.egroup.com.tw
 
 * [Youtube](https://ppt.cc/f78xjx) : 
-1. [FaceCheckIn](https://www.youtube.com/watch?v=9ZV8Jjqi5SY)
-2. [Detect&Train at the same time](https://www.youtube.com/watch?v=g9Xg2OaepHw)
-3. [IoT Seminar FaceCheckIn](https://www.youtube.com/watch?v=sF6U7h4f9EQ)
-4. [Reference - 2017 Taiwan Future Tech FaceCheckIn](https://www.youtube.com/watch?v=rvVGf34_Mmk)
-5. [Linux GPU Object Detect](https://www.youtube.com/watch?v=H6SP5UpD2wk)
+1. [Reference 2017 Taiwan Future Tech FaceCheckIn【Case】](https://www.youtube.com/watch?v=YdUSXfnOnAU)
+2. [IoT Seminar FaceCheckIn【Case】](https://www.youtube.com/watch?v=sF6U7h4f9EQ)
+3. [FaceCheckIn(JAVA GUI)【CPU Demo】](https://www.youtube.com/watch?v=9ZV8Jjqi5SY)
+4. [Multiple WebCam Recognition with one PC【CPU Demo】](https://www.youtube.com/watch?v=OC5wpANob_A)
+5. [Detect & Train at the same time【CPU Demo】](https://www.youtube.com/watch?v=g9Xg2OaepHw)
+6. [CMD Practice【CPU Demo】](https://www.youtube.com/watch?v=Am8SukUPVSc)
+7. [Object Detection【GPU Demo】](https://www.youtube.com/watch?v=H6SP5UpD2wk)
 
 * Github : https://github.com/eGroupTeam
 
