@@ -45,7 +45,7 @@ The FaceRecognize engine is the windows task ,the funtion make you can stop Face
 ## Resource
 * Official website : https://www.egroup.com.tw
 
-* Youtube : 
+* [Youtube](https://ppt.cc/f78xjx) : 
 1. [FaceCheckIn](https://www.youtube.com/watch?v=9ZV8Jjqi5SY)
 2. [Detect&Train at the same time](https://www.youtube.com/watch?v=g9Xg2OaepHw)
 3. [IoT Seminar FaceCheckIn](https://www.youtube.com/watch?v=sF6U7h4f9EQ)
@@ -55,14 +55,8 @@ The FaceRecognize engine is the windows task ,the funtion make you can stop Face
 * Github : https://github.com/eGroupTeam
 
 
-Subscribe to the eGroup AI Channel
-
-https://ppt.cc/f78xjx
-
 
 【Contact Information】
-
-Website：https://www.egroup.com.tw
 
 Contact Person：Daniel 
 
