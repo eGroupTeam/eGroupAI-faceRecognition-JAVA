@@ -8,15 +8,20 @@ Deep Learning Architecture
 Support Edge Computing Solution
 
 * Wintel Enviroment (minimum)
-1. Software：Windows 7／10、Ｃ++ Redistributable 2015 
+1. Software：Windows 7／10、C++ Redistributable 2015 
 2. Hardware：4th Generation Intel® Core™ i3 (SSE3) 
-3. Video Input：
+3. Input Source：
   	* Web Camera：
-		*	Full HD 1080p/30fps , 
-		*	HD 720p/30fps
+		*	Resolution：360p ~ 1080p
 	* IP Camera
+		*	Resolution：360p ~ 4K
 		*	Protocol：RTSP、RTMP
 		*	Format：H.264、H.265、M-JPEG
+	* Video File
+		*	Protocol：RTSP、RTMP
+		*	Format：MP4、MKV、MOV、AVI、FLV
+	* Image File
+		*	Format：JPG、PNG
 
 # Function
 ## Recognize - Retrieve Face
@@ -28,7 +33,7 @@ Start the FaceRecognize engine won't retrieve frame or face to folder you set.
 ## Train 
 You can use list.txt that contain face's path name face's name to train the model. 
 
-## Switchmodel
+## Model Switch
 Switch your new model, e.g model1 is used now and you train the new model ,you can't switch model don't need to restart the FaceRecognize engine.
 
 ## GetResult
@@ -41,18 +46,17 @@ The FaceRecognize engine is the windows task ,the funtion make you can stop Face
 * Official website : https://www.egroup.com.tw
 
 * Youtube : 
-1. [FaceCheckIn](https://www.youtube.com/watch?v=8Q47iGkHuC8)
-2. [Detect&Train at the same time](
-https://www.youtube.com/watch?v=qppPD-1-5xc)
-3. [CMD Command Demo](https://www.youtube.com/watch?v=uwUUGBREctk)
+1. [FaceCheckIn](https://www.youtube.com/watch?v=9ZV8Jjqi5SY)
+2. [Detect&Train at the same time](https://www.youtube.com/watch?v=g9Xg2OaepHw)
+3. [IoT Seminar FaceCheckIn](https://www.youtube.com/watch?v=sF6U7h4f9EQ)
 4. [Reference - 2017 Taiwan Future Tech FaceCheckIn](https://www.youtube.com/watch?v=rvVGf34_Mmk)
-5. [Linux GPU Object Detect](https://www.youtube.com/watch?v=x8ePBXnrSZg)
+5. [Linux GPU Object Detect](https://www.youtube.com/watch?v=H6SP5UpD2wk)
 
-* Github : https://github.com/eGroupIT
+* Github : https://github.com/eGroupTeam
 
 
 Business Contact Info 
 Daniel 
 email : egroup.daniel@gmail.com
 
-Power By eGroup AI
+Powered By eGroup AI
