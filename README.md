@@ -1,5 +1,6 @@
 # Version
-V3.0
+V3.0 
+2018/08/16 update
 
 # Introduce
 The eGroup AI face engine has ability to integrate with your AP.
