@@ -31,10 +31,10 @@ Start the FaceRecognize engine and the engine will start to recognize the source
 You can use list.txt that contain face's path name face's name to train the model. 
 
 ## Model Switch
-Switch your new model, e.g model1 is used now and you train the new model ,you can't switch model don't need to restart the FaceRecognize engine.
+Switch your new model, e.g model1 is in used and you train the new model2 ,you can switch model2 don't need to restart the FaceRecognize engine.
 
-## Model Switch
-Switch your new model, e.g model1 is used now and you train the new model ,you can't switch model don't need to restart the FaceRecognize engine.
+## Model Merge
+Merge your new model, e.g If you have model1 and model2, you can merge to model3
 
 ## GetCacheResult
 If you want to real-time recognize ,you can find newest 100 record in the cache.result.json
