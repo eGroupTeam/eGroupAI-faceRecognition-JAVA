@@ -1,3 +1,6 @@
+# Version
+V3.0
+
 # Introduce
 The eGroup AI face engine has ability to integrate with your AP.
 The sample code demo how to use the face engine by java.
