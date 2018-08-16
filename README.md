@@ -24,11 +24,8 @@ Support Edge Computing Solution
 		*	Format：JPG、PNG
 
 # Function
-## Recognize - Retrieve Face
-Start the FaceRecognize engine and retrieve frame or face to folder you set.
-
-## Recognize - Detect Face
-Start the FaceRecognize engine won't retrieve frame or face to folder you set.
+## Retrieve
+Start the FaceRecognize engine and the engine will start to recognize the source you input, you can control cli to retrieve frame or face to your folder.
 
 ## Train 
 You can use list.txt that contain face's path name face's name to train the model. 
@@ -36,23 +33,27 @@ You can use list.txt that contain face's path name face's name to train the mode
 ## Model Switch
 Switch your new model, e.g model1 is used now and you train the new model ,you can't switch model don't need to restart the FaceRecognize engine.
 
-## GetResult
-FaceRecognize engine will ouput the result by json file.
+## Model Switch
+Switch your new model, e.g model1 is used now and you train the new model ,you can't switch model don't need to restart the FaceRecognize engine.
 
-## TerminateEngine
-The FaceRecognize engine is the windows task ,the funtion make you can stop FaceRecognize.
+## GetCacheResult
+If you want to real-time recognize ,you can find newest 100 record in the cache.result.json
 
+## GetAllResult
+If you want to get the all recognize result , you can find in the output.json
 ## Resource
 * Official website : https://www.egroup.com.tw
 
 * [Youtube](https://ppt.cc/f78xjx) : 
-1. [Reference 2017 Taiwan Future Tech FaceCheckIn【Case】](https://www.youtube.com/watch?v=YdUSXfnOnAU)
-2. [IoT Seminar FaceCheckIn【Case】](https://www.youtube.com/watch?v=sF6U7h4f9EQ)
-3. [FaceCheckIn(JAVA GUI)【CPU Demo】](https://www.youtube.com/watch?v=9ZV8Jjqi5SY)
-4. [Multiple WebCam Recognition with one PC【CPU Demo】](https://www.youtube.com/watch?v=OC5wpANob_A)
-5. [Detect & Train at the same time【CPU Demo】](https://www.youtube.com/watch?v=g9Xg2OaepHw)
-6. [CMD Practice【CPU Demo】](https://www.youtube.com/watch?v=Am8SukUPVSc)
-7. [Object Detection【GPU Demo】](https://www.youtube.com/watch?v=H6SP5UpD2wk)
+
+1. [Reference 2018 IoT Seminar FaceCheckIn【Case】](https://www.youtube.com/watch?v=sF6U7h4f9EQ)
+2. [CMD Practice【CPU Demo】](https://www.youtube.com/watch?v=Am8SukUPVSc)
+3. [Reference 2017 Taiwan Future Tech FaceCheckIn【Case】](https://www.youtube.com/watch?v=YdUSXfnOnAU)
+4. [IoT Seminar FaceCheckIn【Case】](https://www.youtube.com/watch?v=sF6U7h4f9EQ)
+5. [FaceCheckIn(JAVA GUI)【CPU Demo】](https://www.youtube.com/watch?v=9ZV8Jjqi5SY)
+6. [Multiple WebCam Recognition with one PC【CPU Demo】](https://www.youtube.com/watch?v=OC5wpANob_A)
+7. [Detect & Train at the same time【CPU Demo】](https://www.youtube.com/watch?v=g9Xg2OaepHw)
+8. [Object Detection【GPU Demo】](https://www.youtube.com/watch?v=H6SP5UpD2wk)
 
 * Github : https://github.com/eGroupTeam
 
