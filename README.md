@@ -49,13 +49,12 @@ If you want to get the all recognize result , you can find in the output.json
 * [Youtube](https://ppt.cc/f78xjx) : 
 
 1. [Reference 2018 IoT Seminar FaceCheckIn【Case】](https://www.youtube.com/watch?v=sF6U7h4f9EQ)
-2. [CMD Practice【CPU Demo】](https://www.youtube.com/watch?v=Am8SukUPVSc)
-3. [Reference 2017 Taiwan Future Tech FaceCheckIn【Case】](https://www.youtube.com/watch?v=YdUSXfnOnAU)
-4. [IoT Seminar FaceCheckIn【Case】](https://www.youtube.com/watch?v=sF6U7h4f9EQ)
-5. [FaceCheckIn(JAVA GUI)【CPU Demo】](https://www.youtube.com/watch?v=9ZV8Jjqi5SY)
-6. [Multiple WebCam Recognition with one PC【CPU Demo】](https://www.youtube.com/watch?v=OC5wpANob_A)
-7. [Detect & Train at the same time【CPU Demo】](https://www.youtube.com/watch?v=g9Xg2OaepHw)
-8. [Object Detection【GPU Demo】](https://www.youtube.com/watch?v=H6SP5UpD2wk)
+2. [Reference 2017 Taiwan Future Tech FaceCheckIn【Case】](https://www.youtube.com/watch?v=YdUSXfnOnAU)
+3. [CMD Practice【CPU Demo】](https://www.youtube.com/watch?v=Am8SukUPVSc)
+4. [FaceCheckIn(JAVA GUI)【CPU Demo】](https://www.youtube.com/watch?v=9ZV8Jjqi5SY)
+5. [Multiple WebCam Recognition with one PC【CPU Demo】](https://www.youtube.com/watch?v=OC5wpANob_A)
+6. [Detect & Train at the same time【CPU Demo】](https://www.youtube.com/watch?v=g9Xg2OaepHw)
+7. [Object Detection【GPU Demo】](https://www.youtube.com/watch?v=H6SP5UpD2wk)
 
 * Github : https://github.com/eGroupTeam
 
