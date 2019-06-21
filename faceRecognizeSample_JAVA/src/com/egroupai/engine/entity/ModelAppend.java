@@ -1,31 +1,32 @@
 package com.egroupai.engine.entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import com.egroupai.engine.control.EngineFunc;
 import com.egroupai.engine.util.AttributeCheck;
 
 /** 
-* @author 作者 Daniel
+* @author 作者 eGroupAI
 * @date 2018年8月12日 下午10:47:59 
 * @version 
 * @description:
 */
-/** 
-* @author 作者 Daniel
-* @date 2018年8月12日 下午10:47:59 
-* @version 
-* @description:
-*/
-public class ModelMerge extends EngineFunc{
+public class ModelAppend extends EngineFunc{
 	private AttributeCheck attributeCheck = new AttributeCheck();
 	private String ListPath;
 	private String trainedBinaryPath;
 	private String trainedFaceInfoPath;
+	private List<String> modelBinaryList = new ArrayList<>(); 
+	private List<String> modelFaceInfoList = new ArrayList<>(); 
 	private StringBuilder cli;	
 	private List<String> commandList = new ArrayList<String>();
 	private String disk;
+	// program control
+	private String enginePath;
+	private HashMap<String, String> modelHashmap = new HashMap<>();
 	
 	public String getListPath() {
 		return ListPath;
@@ -69,14 +70,40 @@ public class ModelMerge extends EngineFunc{
 	public void setDisk(String disk) {
 		this.disk = disk;
 	}	
-	public void generateCli() {
-		this.disk = ENGINEPATH.substring(0,1);
-		if(attributeCheck.stringsNotNull(ENGINEPATH,disk,ListPath,trainedBinaryPath,trainedFaceInfoPath)){
-			cli = new StringBuilder("cd "+ENGINEPATH+" && "+disk+": && ModelMerge "+ListPath+" "+trainedBinaryPath+" "+trainedFaceInfoPath);
+	public void generateCli(String enginePath) {
+		this.disk = enginePath.substring(0,1);
+		if(attributeCheck.stringsNotNull(enginePath,disk,ListPath,trainedBinaryPath,trainedFaceInfoPath)){
+			cli = new StringBuilder("cd "+enginePath+" && "+disk+": && ModelAppend "+ListPath+" "+trainedBinaryPath+" "+trainedFaceInfoPath);
 			
 		}else{
 			cli = null;
 		}
-		System.out.println("cli="+cli);
-	}	
+		 System.out.println("cli="+cli);
+	}
+	public List<String> getModelBinaryList() {
+		return modelBinaryList;
+	}
+	public void setModelBinaryList(List<String> modelBinaryList) {
+		this.modelBinaryList = modelBinaryList;
+	}
+	public List<String> getModelFaceInfoList() {
+		return modelFaceInfoList;
+	}
+	public void setModelFaceInfoList(List<String> modelFaceInfoList) {
+		this.modelFaceInfoList = modelFaceInfoList;
+	}
+	public HashMap<String, String> getModelHashmap() {
+		return modelHashmap;
+	}
+	public void setModelHashmap(HashMap<String, String> modelHashmap) {
+		this.modelHashmap = modelHashmap;			     	         
+		this.modelBinaryList = new ArrayList<String>(modelHashmap.keySet());
+		this.modelFaceInfoList = new ArrayList<String>(modelHashmap.values());
+	}
+	public String getEnginePath() {
+		return enginePath;
+	}
+	public void setEnginePath(String enginePath) {
+		this.enginePath = enginePath;
+	}
 }

@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 /**
  * Attribute verify 
-* @author 作者 Daniel
+* @author 作者 eGroupAI
 * @date 2018年6月15日 下午2:22:26 
 * @version 
 * @description:
@@ -94,7 +94,7 @@ public class AttributeCheck {
 	public boolean integerNotNull_Zero(Integer... integers) {
 		final int size = integers.length;
 		for (int i = 0; i < size; i++) {
-			if (integers[i]==null&&integers[i]==0) {
+			if (integers[i]==null||integers[i]==0) {
 				return false;
 			}
 		}
@@ -110,7 +110,7 @@ public class AttributeCheck {
 	public boolean listNotNull_Zero(List<?>... lists) {
 		final int size = lists.length;
 		for (int i = 0; i < size; i++) {
-			if (lists[i]==null||(lists[i]!=null&&lists[i].size()==0)) {
+			if (lists[i]==null || (lists[i]!=null&&lists[i].size()==0)) {
 				return false;
 			}
 		}

@@ -3,36 +3,41 @@ package com.egroupai.engine.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.egroupai.engine.control.EngineFunc;
 import com.egroupai.engine.util.AttributeCheck;
 
 /** 
-* @author 作者 Daniel
+* @author 作者 eGroupAI
 * @date 2018年8月12日 下午1:00:53 
 * @version 
 * @description:
 */
-public class RetrieveFace extends EngineFunc{
+public class RecognizeFace{
 	private AttributeCheck attributeCheck = new AttributeCheck();
 	private double threshold;
-	private boolean isHideMainWindow;	
 	private String resolution;	
 	private String outputFramePath;
 	private String outputFacePath;
+	private String outputMotionFramePath;
 	private String cam;
-	private String rtspURL;
+	private String rtsp;
 	private String videoPath;
 	private String photoListPath;
 	private Integer minimumFaceSize;
 	private Integer threads;
 	private String trainedBinaryPath;
 	private String trainedFaceInfoPath;
-	private String JsonPath;
-	private StringBuilder cli;	
+	private String jsonPath;
+	private StringBuilder cli;
 	private List<String> commandList = new ArrayList<String>();
 	private String disk;
+	private String enginePath;
+	private boolean isHideMainWindow = true;	
+	private boolean isHideThreadWindow = true;
+	private Integer sampleRate;
+	private String sectionId;
 	
-	
+	private long responseTime; 
+		
 	public double getThreshold() {
 		return threshold;
 	}
@@ -68,12 +73,12 @@ public class RetrieveFace extends EngineFunc{
 	}
 	public void setCam(String cam) {
 		this.cam = cam;
+	}	
+	public String getRtsp() {
+		return rtsp;
 	}
-	public String getRtspURL() {
-		return rtspURL;
-	}
-	public void setRtspURL(String rtspURL) {
-		this.rtspURL = rtspURL;
+	public void setRtsp(String rtsp) {
+		this.rtsp = rtsp;
 	}
 	public String getVideoPath() {
 		return videoPath;
@@ -112,11 +117,12 @@ public class RetrieveFace extends EngineFunc{
 	public void setTrainedFaceInfoPath(String trainedFaceInfoPath) {
 		this.trainedFaceInfoPath = trainedFaceInfoPath;
 	}
+	
 	public String getJsonPath() {
-		return JsonPath;
+		return jsonPath;
 	}
 	public void setJsonPath(String jsonPath) {
-		JsonPath = jsonPath;
+		this.jsonPath = jsonPath;
 	}
 	public StringBuilder getCli() {
 		return cli;
@@ -124,28 +130,37 @@ public class RetrieveFace extends EngineFunc{
 	public void setCli(StringBuilder cli) {
 		this.cli = cli;
 	}
+	public String getEnginePath() {
+		return enginePath;
+	}
+	public void setEnginePath(String enginePath) {
+		this.enginePath = enginePath;
+	}
 	public void generateCli() {
-		this.disk = ENGINEPATH.substring(0,1);
-		if(attributeCheck.stringsNotNull(ENGINEPATH,disk,trainedBinaryPath,trainedFaceInfoPath,JsonPath)){
+		this.disk = enginePath.substring(0,1);
+		if(attributeCheck.stringsNotNull(enginePath,disk)){
 			String inputSource = " --cam "+cam;
-			if(attributeCheck.stringsNotNull(rtspURL)){
-				inputSource = " --rtsp "+rtspURL;	
+			if(attributeCheck.stringsNotNull(rtsp)){
+				inputSource = " --rtsp "+rtsp;	
 			}else if(attributeCheck.stringsNotNull(videoPath)){
 				inputSource = " --video "+videoPath;	
 			}else if(attributeCheck.stringsNotNull(photoListPath)){
 				inputSource = " --photo-list "+photoListPath;
 			}		
 			cli = new StringBuilder(
-					"cd "+ENGINEPATH+" && "+disk+": && RetrieveFace "
+					"cd "+enginePath+" && "+disk+": && RecognizeFace "
 					+ "--threshold "+threshold+" "
-					+ (isHideMainWindow==true?" --hide-main-window":"")
+					+ (isHideMainWindow==true?" --hide-main-window ":"")
+					+ (isHideThreadWindow==true?"":" --show-thread-window ")
 					+ "--resolution "+resolution+" "
-					+ "--output-frame "+outputFramePath+" "
-					+ "--output-face "+outputFacePath+" "
+					+ "--output-frame \""+outputFramePath+"\" "
+					+ "--output-face \""+outputFacePath+"\" "
+					+ "--output-motion-frame \""+outputMotionFramePath+"\" "
 					+ inputSource+" "
 					+ "--minimum-face-size "+minimumFaceSize+" "
 					+ "--threads "+threads+" "
-					+ trainedBinaryPath+" "+trainedFaceInfoPath+" "+JsonPath+"");
+					+ "--sample-rate "+sampleRate+" "
+					+ trainedBinaryPath+" "+trainedFaceInfoPath+" "+jsonPath+"");
 		}else{
 			cli = null;
 		}
@@ -169,4 +184,35 @@ public class RetrieveFace extends EngineFunc{
 	public void setDisk(String disk) {
 		this.disk = disk;
 	}
+	public boolean isHideThreadWindow() {
+		return isHideThreadWindow;
+	}
+	public void setHideThreadWindow(boolean isHideThreadWindow) {
+		this.isHideThreadWindow = isHideThreadWindow;
+	}
+	public Long getResponseTime() {
+		return responseTime;
+	}
+	public void setResponseTime(long responseTime) {
+		this.responseTime = responseTime;
+	}
+	public String getSectionId() {
+		return sectionId;
+	}
+	public void setSectionId(String sectionId) {
+		this.sectionId = sectionId;
+	}
+	public Integer getSampleRate() {
+		return sampleRate;
+	}
+	public void setSampleRate(Integer sampleRate) {
+		this.sampleRate = sampleRate;
+	}
+	public String getOutputMotionFramePath() {
+		return outputMotionFramePath;
+	}
+	public void setOutputMotionFramePath(String outputMotionFramePath) {
+		this.outputMotionFramePath = outputMotionFramePath;
+	}	
+	
 }

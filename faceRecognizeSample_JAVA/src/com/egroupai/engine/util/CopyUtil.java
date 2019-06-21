@@ -8,45 +8,43 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class CopyUtil {
-	/**
+	/***
 	 * Copy file method using classic approach by using streams.
-	 * @author Daniel
-	 *
-	 * @param source
-	 * @param dest
-	 * @return
+	 * 
+	 * @param source file
+	 * @param dest file
 	 * @throws IOException
 	 */
 	public boolean copyFile(File source, File dest) throws IOException {
-		InputStream input = null;
-		OutputStream output = null;
-		try {
-			input = new FileInputStream(source);
-			output = new FileOutputStream(dest);
-			final byte[] buf = new byte[1024];
-			int bytesRead;
-			while ((bytesRead = input.read(buf)) > 0) {
-				output.write(buf, 0, bytesRead);
+		if(source.exists()&&source.length()>0){
+			InputStream input = null;
+			OutputStream output = null;
+			try {
+				input = new FileInputStream(source);
+				output = new FileOutputStream(dest);
+				final byte[] buf = new byte[1024];
+				int bytesRead;
+				while ((bytesRead = input.read(buf)) > 0) {
+					output.write(buf, 0, bytesRead);
+				}
+				//System.out.println("File copied from " + source + "  to " + dest);
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (input != null)
+					input.close();
+				if (output != null)
+					output.close();
 			}
-			System.out.println("File copied from " + source + "  to " + dest);
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (input != null)
-				input.close();
-			if (output != null)
-				output.close();
 		}
 		return false;
 	}
 
 	/**
-	 * Copy folder
-	 * @author Daniel
-	 *
-	 * @param source
-	 * @param dest
+	 * copy folder
+	 * @param source folder be copy
+	 * @param dest folder copy to
 	 * @throws IOException
 	 */
 	public void copyFolder(File source, File dest) throws IOException {

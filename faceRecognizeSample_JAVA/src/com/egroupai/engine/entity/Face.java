@@ -1,12 +1,11 @@
 package com.egroupai.engine.entity;
 
-import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
 
 
 /** 
-* @author 作者 Daniel
+* @author 作者 eGroupAI
 * @date 2018年8月16日 上午8:40:44 
 * @version 
 * @description:
@@ -15,15 +14,17 @@ public class Face {
 	private String hasFound;
 	private String personId;
 	private List<SimilarFace> similarFaceList = new ArrayList<SimilarFace>();
-	private FrameFace frameFace;
+	private FrameFace frameFace = new FrameFace();
 	private String framePath;
 	private String systemTime;
 	private String videoTime;
 	private String videoFrameNo;
 	private String imageSourcePath;
 
+	// Programe control
 	private Integer startIndex;
 	private Integer endIndex;
+	
 	public String getHasFound() {
 		return hasFound;
 	}
