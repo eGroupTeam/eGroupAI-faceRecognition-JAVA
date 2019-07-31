@@ -1,20 +1,21 @@
 package com.egroupai.engine.entity; 
 
 /** 
-* @author 作者 eGroupAI
+* @author 作者 eGroupAI Team
 * @date 2019年4月25日 上午7:54:46 
 * @version 
 * @description:
 */
 
 public class ModelInsertInfo {
-	String datetimeString;
-	String insertModelStatus;
-	Integer insertFacesCount;
-	Integer insertPeopleCount;
-	Integer CurrDBFaceCout;
-	Integer CurrDBPeopleCount;
-	String insertProcessTime;
+	private String datetimeString;
+	private String insertModelStatus;
+	private Integer insertFacesCount;
+	private Integer insertPeopleCount;
+	private Integer CurrDBFaceCout;
+	private Integer CurrDBPeopleCount;
+	private String insertProcessTime;
+	
 	public String getDatetimeString() {
 		return datetimeString;
 	}

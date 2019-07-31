@@ -1,7 +1,7 @@
 package com.egroupai.engine.entity;
 
 /** 
-* @author 作者 eGroupAI
+* @author 作者 eGroupAI Team
 * @date 2019年4月22日 下午4:00:15 
 * @version 
 * @description:

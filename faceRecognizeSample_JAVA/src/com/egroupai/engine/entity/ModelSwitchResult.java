@@ -1,13 +1,13 @@
 package com.egroupai.engine.entity; 
 
 /** 
-* @author 作者 eGroupAI
+* @author 作者 eGroupAI Team
 * @date 2019年2月11日 下午4:54:35 
 * @version 
 * @description:
 */
 /** 
-* @author Daniel
+* @author eGroupAI Team
 * @date 2019年2月11日 下午4:54:35 
 * @version 
 * @description:

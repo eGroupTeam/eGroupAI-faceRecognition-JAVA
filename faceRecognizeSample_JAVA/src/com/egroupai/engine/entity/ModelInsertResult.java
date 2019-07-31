@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
-* @author 作者 eGroupAI
+* @author 作者 eGroupAI Team
 * @date 2019年4月25日 上午7:54:57 
 * @version 
 * @description:

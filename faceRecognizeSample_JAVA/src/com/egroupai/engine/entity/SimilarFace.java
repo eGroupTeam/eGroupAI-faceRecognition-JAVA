@@ -1,14 +1,17 @@
-package com.egroupai.engine.entity; 
+package com.egroupai.engine.entity;
 
 /** 
-* @author 作者 eGroupAI
+* @author 作者 eGroupAI Team
 * @date 2018年8月16日 上午8:40:51 
 * @version 
 * @description:
 */
 public class SimilarFace {
+//	@Schema(description = "人臉識別碼")
 	private String personFaceId;
+//	@Schema(description = "人臉路徑")
 	private String personFacePath;
+//	@Schema(description = "相似度")
 	private String similarity;
 	
 	public String getPersonFaceId() {

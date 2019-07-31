@@ -3,16 +3,14 @@ package com.egroupai.engine.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.egroupai.engine.util.AttributeCheck;
-
 /** 
-* @author 作者 eGroupAI
+* @author 作者 eGroupAI Team
 * @date 2019年4月25日 上午8:04:03 
 * @version 
 * @description:
 */
 /** 
-* @author daniel
+* @author eGroupAI Team
 * @date 2019年4月25日 上午8:04:03 
 * @version 
 * @description:

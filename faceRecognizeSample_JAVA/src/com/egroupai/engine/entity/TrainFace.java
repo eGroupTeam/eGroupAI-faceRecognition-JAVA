@@ -3,11 +3,10 @@ package com.egroupai.engine.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.egroupai.engine.control.EngineFunc;
 import com.egroupai.engine.util.AttributeCheck;
 
 /** 
-* @author 作者 eGroupAI
+* @author 作者 eGroupAI Team
 * @date 2018年8月11日 下午10:30:05 
 * @version 
 * @description:
@@ -18,18 +17,17 @@ public class TrainFace{
 	private String trainListPath;
 	private String modelPath;
 	private StringBuilder cli;	
-	private List<String> commandList = new ArrayList<String>();
+	private List<String> commandList;
 	private String disk;
-	private TrainResult trainResult = new TrainResult();
+	private TrainResult trainResult;
 	private String trainResultLogPath;	
 	
 	// programe control
-	private List<String> imagePathList = new ArrayList<>();
+	private List<String> imagePathList;
 	private String imagePath;
 	private String personId;
 	private String imagePathJson;
 	private boolean uploadFace = false;
-	private String batchTrainPath;
 	// blackwhite variable
 	private Integer hasTrainFaceCount;
 	private Integer train_successCount;
@@ -80,8 +78,8 @@ public class TrainFace{
 		if(attributeCheck.stringsNotNull(cli.toString())){
 			commandList = new ArrayList<String>();
 			commandList.add("cmd");
-			commandList.add("/"+disk);
-			commandList.add(cli.toString().replace("/", "/"));
+			commandList.add("/C");
+			commandList.add(disk+": && "+cli.toString().replace("/", "/"));
 		}
 		return commandList;
 	}
@@ -95,6 +93,9 @@ public class TrainFace{
 		this.disk = disk;
 	}
 	public List<String> getImagePathList() {
+		if(imagePathList==null){
+			imagePathList = new ArrayList<>();
+		}
 		return imagePathList;
 	}
 	public void setImagePathList(List<String> imagePathList) {
@@ -155,6 +156,9 @@ public class TrainFace{
 		this.trainResultList = trainResultList;
 	}
 	public TrainResult getTrainResult() {
+		if(trainResult==null){
+			trainResult = new TrainResult();
+		}
 		return trainResult;
 	}
 	public void setTrainResult(TrainResult trainResult) {
@@ -165,11 +169,5 @@ public class TrainFace{
 	}
 	public void setTrainResultLogPath(String trainResultLogPath) {
 		this.trainResultLogPath = trainResultLogPath;
-	}
-	public String getBatchTrainPath() {
-		return batchTrainPath;
-	}
-	public void setBatchTrainPath(String batchTrainPath) {
-		this.batchTrainPath = batchTrainPath;
 	}
 }

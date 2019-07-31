@@ -4,25 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
-* @author 作者 eGroupAI
+* @author 作者 eGroupAI Team
 * @date 2019年2月11日 上午11:12:18 
 * @version 
 * @description:
 */
 /** 
-* @author Daniel
+* @author eGroupAI Team
 * @date 2019年2月11日 上午11:12:18 
 * @version 
 * @description:
 */
 public class TrainResult {
-	private List<String> passFacePathList = new ArrayList<>();
-	private List<String> failFacePathList = new ArrayList<>();
+	private List<String> passFacePathList;
+	private List<String> failFacePathList;
 	private Integer fileSize;
 	private Integer faceSize;
 	private String processingTime;	
 	private String avgPprocessingTime;	
-	private List<TrainInfo> trainInfoList = new ArrayList<>();
+	private List<TrainInfo> trainInfoList;
 	// programe control
 	private boolean trainResultFileExist = true;
 	private boolean trainCmdSuccess = true;
@@ -36,12 +36,18 @@ public class TrainResult {
 		this.trainResultFileExist = trainResultFileExist;
 	}
 	public List<String> getPassFacePathList() {
+		if(passFacePathList==null){
+			passFacePathList = new ArrayList<>();
+		}
 		return passFacePathList;
 	}
 	public void setPassFacePathList(List<String> passFacePathList) {
 		this.passFacePathList = passFacePathList;
 	}
 	public List<String> getFailFacePathList() {
+		if(failFacePathList==null){
+			failFacePathList = new ArrayList<>();
+		}
 		return failFacePathList;
 	}
 	public void setFailFacePathList(List<String> failFacePathList) {
@@ -73,6 +79,9 @@ public class TrainResult {
 		this.avgPprocessingTime = avgPprocessingTime;
 	}
 	public List<TrainInfo> getTrainInfoList() {
+		if(trainInfoList==null){
+			trainInfoList = new ArrayList<>();
+		}
 		return trainInfoList;
 	}
 	public void setTrainInfoList(List<TrainInfo> trainInfoList) {

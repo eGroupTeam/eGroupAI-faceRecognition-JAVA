@@ -12,7 +12,6 @@ import java.util.List;
 import com.egroupai.engine.util.AttributeCheck;
 import com.egroupai.engine.util.CopyUtil;
 import com.egroupai.engine.entity.Face;
-import com.egroupai.engine.entity.RFIDFace;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -226,75 +225,6 @@ public class GetResult {
 			}
 		}		
 		return faceList;
-	}
-	
-	/**
-	 * Get Recognize result json
-	 * @author Daniel
-	 *
-	 * @param jsonPath
-	 * @param startIndex
-	 * @return
-	 */
-	public List<RFIDFace> RFIDResult(String jsonPath,String jsonName) {
-		// init func
-		final Gson gson = new Gson();
-		final CopyUtil copyUtil = new CopyUtil();
-
-		// init variable
-		final Type faceListType = new TypeToken<ArrayList<RFIDFace>>() {}.getType();
-		List<RFIDFace> RFIDFaceList = new ArrayList<RFIDFace>();
-
-		// Get retrieve result
-		final File sourceJson = new File(jsonPath.toString() + "/"+jsonName+".json");
-		final StringBuilder jsonFileName = new StringBuilder(jsonPath + "/"+jsonName+"_copy.json");
-		final File destJson = new File(jsonFileName.toString());
-		if(sourceJson.exists()&&sourceJson.length()!=destJson.length()) {
-			try {
-				copyUtil.copyFile(sourceJson, destJson);
-//				sourceJson.delete();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			FileReader fileReader = null;
-			BufferedReader bufferedReader = null;
-
-			// init func
-			final AttributeCheck attributeCheck = new AttributeCheck();
-			try {
-				fileReader = new FileReader(jsonFileName.toString());
-			} catch (FileNotFoundException e) {
-			}
-			bufferedReader = new BufferedReader(fileReader);
-			// Read Json
-			final StringBuilder jsonContent = new StringBuilder();
-			String line;
-			try {
-				// Read line
-				line = bufferedReader.readLine();
-				while (line != null) {
-					jsonContent.append(line + "\n");
-					line = bufferedReader.readLine();
-				}
-				// If has data
-				if (attributeCheck.stringsNotNull(jsonContent.toString())) {
-					// Get last one object
-					final int endIndex = jsonContent.lastIndexOf("}\n\t,");
-					if(endIndex>0) {
-						final String json = jsonContent.toString().substring(0, endIndex) + "}]";
-						RFIDFaceList = gson.fromJson(json, faceListType);			
-					}									
-				}
-			} catch (IOException e) {
-			} finally {
-				try {
-					bufferedReader.close();
-				} catch (IOException e) {
-				}
-			}
-		}		
-		return RFIDFaceList;
 	}
 	
 	/**

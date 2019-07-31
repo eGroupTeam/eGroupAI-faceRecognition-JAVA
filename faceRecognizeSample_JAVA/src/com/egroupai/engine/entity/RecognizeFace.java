@@ -6,20 +6,19 @@ import java.util.List;
 import com.egroupai.engine.util.AttributeCheck;
 
 /** 
-* @author 作者 eGroupAI
+* @author 作者 eGroupAI Team
 * @date 2018年8月12日 下午1:00:53 
 * @version 
 * @description:
 */
 public class RecognizeFace{
 	private AttributeCheck attributeCheck = new AttributeCheck();
-	private double threshold;
+	private Double threshold;
 	private String resolution;	
 	private String outputFramePath;
 	private String outputFacePath;
-	private String outputMotionFramePath;
 	private String cam;
-	private String rtsp;
+	private String rtspURL;
 	private String videoPath;
 	private String photoListPath;
 	private Integer minimumFaceSize;
@@ -28,7 +27,8 @@ public class RecognizeFace{
 	private String trainedFaceInfoPath;
 	private String jsonPath;
 	private StringBuilder cli;
-	private List<String> commandList = new ArrayList<String>();
+	private List<String> commandList;
+	private List<String> commandList_server;
 	private String disk;
 	private String enginePath;
 	private boolean isHideMainWindow = true;	
@@ -73,12 +73,12 @@ public class RecognizeFace{
 	}
 	public void setCam(String cam) {
 		this.cam = cam;
-	}	
-	public String getRtsp() {
-		return rtsp;
 	}
-	public void setRtsp(String rtsp) {
-		this.rtsp = rtsp;
+	public String getRtspURL() {
+		return rtspURL;
+	}
+	public void setRtspURL(String rtspURL) {
+		this.rtspURL = rtspURL;
 	}
 	public String getVideoPath() {
 		return videoPath;
@@ -140,8 +140,8 @@ public class RecognizeFace{
 		this.disk = enginePath.substring(0,1);
 		if(attributeCheck.stringsNotNull(enginePath,disk)){
 			String inputSource = " --cam "+cam;
-			if(attributeCheck.stringsNotNull(rtsp)){
-				inputSource = " --rtsp "+rtsp;	
+			if(attributeCheck.stringsNotNull(rtspURL)){
+				inputSource = " --rtsp "+rtspURL;	
 			}else if(attributeCheck.stringsNotNull(videoPath)){
 				inputSource = " --video "+videoPath;	
 			}else if(attributeCheck.stringsNotNull(photoListPath)){
@@ -149,34 +149,64 @@ public class RecognizeFace{
 			}		
 			cli = new StringBuilder(
 					"cd "+enginePath+" && "+disk+": && RecognizeFace "
-					+ "--threshold "+threshold+" "
+					+ (threshold!=null?"--threshold "+threshold+" ":"")
 					+ (isHideMainWindow==true?" --hide-main-window ":"")
 					+ (isHideThreadWindow==true?"":" --show-thread-window ")
-					+ "--resolution "+resolution+" "
+					+ (resolution!=null?"--resolution "+resolution+" ":"")
 					+ "--output-frame \""+outputFramePath+"\" "
 					+ "--output-face \""+outputFacePath+"\" "
-					+ "--output-motion-frame \""+outputMotionFramePath+"\" "
 					+ inputSource+" "
-					+ "--minimum-face-size "+minimumFaceSize+" "
-					+ "--threads "+threads+" "
-					+ "--sample-rate "+sampleRate+" "
+					+ (minimumFaceSize!=null?"--minimum-face-size "+minimumFaceSize+" ":"")
+					+ (threads!=null?"--threads "+threads+" ":"")
+					+ (sampleRate!=null?"--sample-rate "+sampleRate+" ":"")
 					+ trainedBinaryPath+" "+trainedFaceInfoPath+" "+jsonPath+"");
 		}else{
 			cli = null;
 		}
 		System.out.println("cli="+cli);
 	}	
+	
+	public void generateCli_server() {
+		this.disk = enginePath.substring(0,1);
+		if(attributeCheck.stringsNotNull(enginePath,disk)){
+			cli = new StringBuilder(
+					"cd "+enginePath+" && "+disk+": && RecognizeFace "
+					+ (threshold!=null?"--threshold "+threshold+" ":"")
+					+ (resolution!=null?"--resolution "+resolution+" ":"")
+					+ "--output-face \""+outputFacePath+"\" "
+					+ (threads!=null?"--threads "+threads+" ":"")
+					+ "\""+trainedBinaryPath+"\" \""+trainedFaceInfoPath+"\" \""+jsonPath+"\"");
+		}else{
+			cli = null;
+		}
+		System.out.println("cli_server="+cli);
+	}
+	
 	public List<String> getCommandList() {
 		if(attributeCheck.stringsNotNull(cli.toString())){
-			commandList = new ArrayList<String>();
-			commandList.add("cmd");
-			commandList.add("/"+disk);
-			commandList.add(cli.toString().replace("/", "/"));
+			commandList_server = new ArrayList<String>();
+			commandList_server.add("cmd");
+			commandList_server.add("/C");
+			commandList_server.add(disk+": && "+cli.toString().replace("/", "/"));
 		}
 		return commandList;
 	}
 	public void setCommandList(List<String> commandList) {
 		this.commandList = commandList;
+	}	
+	
+	public List<String> getCommandList_server() {
+		if(attributeCheck.stringsNotNull(cli.toString())){
+			commandList_server = new ArrayList<String>();
+			commandList_server.add("cmd");
+			commandList_server.add("/C");
+			commandList_server.add(disk+": && "+cli.toString().replace("/", "/"));
+		}
+		return commandList_server;
+	}
+	
+	public void setCommandList_server(List<String> commandList_server) {
+		this.commandList_server = commandList_server;
 	}
 	public String getDisk() {
 		return disk;
@@ -207,12 +237,6 @@ public class RecognizeFace{
 	}
 	public void setSampleRate(Integer sampleRate) {
 		this.sampleRate = sampleRate;
-	}
-	public String getOutputMotionFramePath() {
-		return outputMotionFramePath;
-	}
-	public void setOutputMotionFramePath(String outputMotionFramePath) {
-		this.outputMotionFramePath = outputMotionFramePath;
 	}	
 	
 }

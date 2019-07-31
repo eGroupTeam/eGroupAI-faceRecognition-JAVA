@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
-* @author 作者 eGroupAI
+* @author 作者 eGroupAI Team
 * @date 2019年4月22日 下午2:07:27 
 * @version 
 * @description:
@@ -12,7 +12,7 @@ import java.util.List;
 public class ModelAppendResult {
 	private String modelListCheckStatus;
 	private String modelListPath;
-	private List<ModelAppendInfo> modelAppendInfoList = new ArrayList<>();
+	private List<ModelAppendInfo> modelAppendInfoList;
 	private Integer appendPassCount;
 	private Integer appendFailCount;
 	private Integer totalFaceCount;
@@ -32,6 +32,9 @@ public class ModelAppendResult {
 		this.modelListPath = modelListPath;
 	}
 	public List<ModelAppendInfo> getModelAppendInfoList() {
+		if(modelAppendInfoList==null){
+			modelAppendInfoList = new ArrayList<>();
+		}
 		return modelAppendInfoList;
 	}
 	public void setModelAppendInfoList(List<ModelAppendInfo> modelAppendInfoList) {
