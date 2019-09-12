@@ -1,4 +1,4 @@
-# Version V3.1.4(2019/06/21 update)
+# Version V3.2.1(2019/08/29 update)
 
 # [Introduce](https://www.egroup.com.tw/documentation/introduce?type=cpu&version=latest)
 System Structure
