@@ -54,7 +54,7 @@ Input untrained Face and Trained immediately, Insert the new Face Model to Face 
 
   * [eGroupAI│【Knowledge】How to evaluate the face recognition engine-ROC Curves](https://www.youtube.com/watch?v=o6t3crMXqO4)  
   * [eGroupAI│【Partner】 DSI-Face recognition + face temperature detection intelligent epidemic prevention system](https://www.egroup.com.tw/en/solutions/1)
-  * [eGroupAI|【Tutorial】Face Recognition SDK - Quick Start](https://www.youtube.com/watch?v=EAKXivFojF0)
+  * [eGroupAI│【Tutorial】Face Recognition SDK - Quick Start](https://www.youtube.com/watch?v=EAKXivFojF0)
   * [eGroupAI│【Tutorial】CMD Practice](https://www.youtube.com/watch?v=Am8SukUPVSc)
   * [MICEPass│【Test Report】LFW Testing](https://www.youtube.com/watch?v=SrBUcAlx8Po&t=193s)
   * [eGroupAI│【Demo】SaaS service - mobile facial recognition](https://www.egroup.com.tw/en/solutions/3)
