@@ -1,74 +1,91 @@
-# Version V3.2.1(2019/08/29 update)
+# Version V4.2.2(2020/11/20 update)
 
-# [Introduce](https://www.egroup.com.tw/documentation/introduce?type=cpu&version=latest)
+# [Introduce](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/introduce)
 System Structure
-## Engine Core 
-* Training：Building a face model library.
-* Recognition：Image input, recognition, and results. 
-* Model Switch：Face model library is instantly switched in the recognition process. 
-* Model Append：Face model library is appended. 
-* Model Insert：Face model library is stored in the recognition process, and the result is inserted online to instantly recognize the new result.
+## Features
+* Train：Input specific face, Create a dedicated face model.
+* Recognition：Input Face, Recognized with face model and get result.
+* Model Insert：Input untrained face and Trained immediately, Insert the new face model to face model
+and get result at the same time.
+* Model Append：Append different face model into one.
+* Model Switch：Switch to the new face model and get result at the same time.
 
-## Application Integration
-### Flow Description
-1. The application controls the training engine.
-2. Training engine generates a face model library.
-3. The application controls the recognition engine, which reads the face model library for recognition
-4. Recognition engine generates recognition result in JSON Format.
-5. The application reads the recognition result and applies it.
-### [Flow chart](https://www.egroup.com.tw/documentation/introduce?type=cpu&version=latest#6d417a0b5716)
+## Integration
+### Procedure
+1. Using Application software trigger Train to Create Face Model.
+2. Application software read image file and trigger Recognition to do comparison with Face Model.
+3. Output Comparison Result(JSON format) to Application software.
+### [Flow chart](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/introduce)
 
-# Enviroment
-## [Recommended system specifications](https://www.egroup.com.tw/documentation/introduce?type=cpu&version=latest#5efa8b707cfb7d71898f683c)
-## [Software installation](https://www.egroup.com.tw/documentation/introduce?type=cpu&version=latest#8edf9ad45b8988dd)
-## [Input Source](https://www.egroup.com.tw/documentation/introduce?type=cpu&version=latest#8f3851655f7150cf4f866e90)
-## [General Precautions](https://www.egroup.com.tw/documentation/introduce?type=cpu&version=latest#6ce8610f4e8b9805)
+# Environments Required
+## [Hardware and OS](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/introduce#0048006100720064007700610072006500200061006e00640020004f0053)
+## [Input Devices And Protocol](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/introduce#0049006e0070007500740020004400650076006900630065007300200041006e0064002000500072006f0074006f0063006f006c)
+## [Precautions](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/introduce#00500072006500630061007500740069006f006e0073)
 
 # Function
-## [Recognize](https://www.egroup.com.tw/documentation/recognize?type=cpu&version=latest#6d417a0b5716)
+## [Training Procedure](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/train#0046006c006f007700630068006100720074)
 
-## [Train](https://www.egroup.com.tw/documentation/train?type=cpu&version=latest#6d417a0b5716) 
+## [Recognition Procedure](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/recognize#0046006c006f007700630068006100720074) 
+When the recognized face model is updated (modified or deleted) , you can use Model Switch to recognize the new face model in time and get the latest recognition results.
 
-## [Model Switch](https://www.egroup.com.tw/documentation/model-switch?type=cpu&version=latest#4f7f752860c55883)
-Replace the file content (new face model library path) according to the model, perform the model replacement, compare it instantly, and return the latest recognition result.
+## [Model Switch Procedure](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/model-switch#004d006f00640065006c0020005300770069007400630068002000500072006f006300650064007500720065)
+When the recognized face model is updated (modified or deleted) , you can use Model Switch to recognize the new face model in time and get the latest recognition results.
 
-## [Model Append](https://www.egroup.com.tw/documentation/model-merge?type=cpu&version=latest#4f7f752860c55883)
-Store/O2O Edge Computing Application
-* The customer only needs to build a face model library in one of the branches. When the customer goes to a different branch, they can be directly recognized, and the customer's face model library does not need to be reestablished.
+## [Model Append Procedure](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/model-append#005300630065006e006100720069006f0073)
+Append different Face Model into one.
 
-## [Model Insert](https://www.egroup.com.tw/documentation/model-insert?type=cpu&version=latest#4f7f752860c55883)
-In the case of large-scale face model library, on-site real-time training, on-site instant recognition
- When the face model library reaches a certain size, the model will become more difficult to replace. The training of instant recognition will also become more difficult. Model insert can be used at this point to add several trained face model libraries from online. There is no need to uninstall the old model, so that the actual face model library file is not generated. This way, the time for model switch can be saved, and the effect of instant recognition can be further achieved. However, because it is an online insert, it means that when the recognition engine stops working and restarts, the recognition result will be reverted to the model before the online insert, so it is recommended to use the scheduling method to append the face model library.(Model Append)
+## [Model Insert Procedure](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/model-insert#005300630065006e006100720069006f0073)
+Input untrained Face and Trained immediately, Insert the new Face Model to Face Model and get Result at the same time.
 
-## [GetCacheResult](https://www.egroup.com.tw/documentation/recognize?type=cpu&version=latest#8fa88b580020004f00750074007000750074)
-If you want to real-time recognize ,you can find newest 100 record in the cache.result.json
+## GetResult
+[Output JSON](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/qa#004a0073006f006e0020004900730073007500650073)
 
-## [GetAllResult](https://www.egroup.com.tw/documentation/recognize?type=cpu&version=latest#8fa88b580020004f00750074007000750074)
-If you want to get the all recognize result , you can find in the output.json
+[Recognition Output](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/qa#004a0073006f006e0020004900730073007500650073)
+*  Cache JSON file
+    * Lighter JSON file (Newest 100 data)
+* JSON file
+    * Recognize result with Date
+
 ## Resource
-* [Document](https://www.egroup.com.tw/documentation/introduce?type=cpu&version=latest#7cfb7d7167b669cb) : https://www.egroup.com.tw/documentation/introduce?type=cpu&version=latest#7cfb7d7167b669cb
+* [Document](https://www.egroup.com.tw/en/docs)
 
 * [Official website](https://www.egroup.com.tw) : https://www.egroup.com.tw
+* [Youtube](https://www.youtube.com/channel/UCZ0S3b-P0v6gwU1YQifAXUA?view_as=subscriber) : 
 
-* [Youtube](https://ppt.cc/f78xjx) : 
-1. [Taiwan Social Workers Association Annual Conference Activity](https://www.youtube.com/watch?v=wupwnKb7RyY)
-2. [Visitor management system and face recognition guard system](https://www.youtube.com/watch?v=KH2IDPDulDQ&t=24s)
-3. [Reference 2018 IoT Seminar FaceCheckIn【Case】](https://www.youtube.com/watch?v=sF6U7h4f9EQ)
-4. [Reference 2017 Taiwan Future Tech FaceCheckIn【Case】](https://www.youtube.com/watch?v=YdUSXfnOnAU)
-5. [CMD Practice【CPU Demo】](https://www.youtube.com/watch?v=Am8SukUPVSc)
-6. [FaceCheckIn(JAVA GUI)【CPU Demo】](https://www.youtube.com/watch?v=9ZV8Jjqi5SY)
-7. [Multiple WebCam Recognition with one PC【CPU Demo】](https://www.youtube.com/watch?v=OC5wpANob_A)
-8. [Detect & Train at the same time【CPU Demo】](https://www.youtube.com/watch?v=g9Xg2OaepHw)
-9. [Object Detection【GPU Demo】](https://www.youtube.com/watch?v=H6SP5UpD2wk)
+  * [eGroupAI│【Knowledge】How to evaluate the face recognition engine-ROC Curves](https://www.youtube.com/watch?v=o6t3crMXqO4)  
+  * [eGroupAI│【Partner】 DSI-Face recognition + face temperature detection intelligent epidemic prevention system](https://www.egroup.com.tw/en/solutions/1)
+  * [eGroupAI│【Tutorial】Face Recognition SDK - Quick Start](https://www.youtube.com/watch?v=EAKXivFojF0)
+  * [eGroupAI│【Tutorial】CMD Practice](https://www.youtube.com/watch?v=Am8SukUPVSc)
+  * [MICEPass│【Test Report】LFW Testing](https://www.youtube.com/watch?v=SrBUcAlx8Po&t=193s)
+  * [eGroupAI│【Demo】SaaS service - mobile facial recognition](https://www.egroup.com.tw/en/solutions/3)
+  * [eGroupAI│【Demo】FaceGo recognition module](https://www.egroup.com.tw/en/solutions/4)
+  * [MICEPass│【Demo】Activity face Check-In](https://www.egroup.com.tw/en/solutions/2)
+  * [eGroupAI│【Demo】Taiwan Social Workers Association Annual Conference Activity](https://www.egroup.com.tw/en/solutions/5)
+  * [eGroupAI│【Demo】Visitor management system and face recognition guard system](https://www.youtube.com/watch?v=KH2IDPDulDQ&t=24s)
+  * [MICEPass│【Demo】Seminar Face Check-In/out](https://www.egroup.com.tw/en/solutions/6)
+  * [eGroupAI│【Demo】Reference 2018 IoT Seminar FaceCheckIn](https://www.egroup.com.tw/en/solutions/7)
+  * [eGroupAI│【Demo】Reference 2017 Taiwan Future Tech FaceCheckIn](https://www.egroup.com.tw/en/solutions/8)
+  * [eGroupAI│【Demo】FaceCheckIn(JAVA GUI)](https://www.youtube.com/watch?v=9ZV8Jjqi5SY)
+  * [eGroupAI│【Demo】Multiple WebCam Recognition with one PC](https://www.youtube.com/watch?v=OC5wpANob_A)
+  * [eGroupAI│【Demo】Detect & Train at the same time](https://www.youtube.com/watch?v=g9Xg2OaepHw)  
+  * [eGroupAI│【Demo】Object Detection](https://www.youtube.com/watch?v=H6SP5UpD2wk)
+
+
+
+
 
 * Github : https://github.com/eGroupTeam
 
 
 
 【Contact Information】
-
-Contact Person：Daniel 
-
-Email：egroup.daniel@gmail.com
+* Contact us for more information
+    * Face recognition technology licensing
+    Solutions
+    Online discussion
+* Daniel 886-2-2362-2508
+* egroup.daniel@gmail.com
+* eGroup co.,ltd
+    * No. 47, Sec. 2, Xinhai Rd., Da’an Dist., Taipei City 106, Taiwan (R.O.C.)
 
 Powered By eGroupAI
