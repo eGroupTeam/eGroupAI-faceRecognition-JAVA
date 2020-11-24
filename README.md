@@ -7,9 +7,11 @@
    * Import Project
    * Create the folder at disk c name QuickStart 
       * Download engine and put in the QuickStart ( [login your account](https://www.egroup.com.tw) )
-          * e.g. C:\QuickStart_bk\engine\eGroupAI_FaceEngine_CPU_Windows_V4.2.2
+          * e.g. C:\QuickStart_bk\eGroupAI_FaceEngine_CPU_Windows_V4.2.2
+      * Download license.key and put int the engine foler
+          * e.g. C:\QuickStart\eGroupAI_FaceEngine_CPU_Windows_V4.2.2\license.key
       * Download QuickStart resources and put in the QuickStart 
-          * e.g. C:\QuickStart\engine\eGroupAI_FaceEngine_CPU_Windows_V4.2.2\resources
+          * e.g. C:\QuickStart\eGroupAI_FaceEngine_CPU_Windows_V4.2.2\resources
    * Run Java application - QuickStart Example
       * Application will call engine by cli
 
