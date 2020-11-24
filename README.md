@@ -6,7 +6,7 @@
    * Clone Project
    * Import Project
    * Create the folder at disk c name QuickStart 
-      * Download engine and put in the QuickStart 
+      * Download engine and put in the QuickStart ( [login your account](https://www.egroup.com.tw) )
           * e.g. C:\QuickStart_bk\engine\eGroupAI_FaceEngine_CPU_Windows_V4.2.2
       * Download QuickStart resources and put in the QuickStart 
           * e.g. C:\QuickStart\engine\eGroupAI_FaceEngine_CPU_Windows_V4.2.2\resources
