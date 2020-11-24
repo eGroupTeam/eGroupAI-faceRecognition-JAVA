@@ -67,13 +67,12 @@ public class QuickStart {
   final static File leonardFaceImageFolder = new File(lenardFaceImageFolderPath.toString());
 
   public static void main(String args[]) {
-    // Step1 : Training
+    // ================================================== Step1 : Training========================================================= //
     // Example: Input jerry's Face, Create jerry's Face Model.
     // Document: https: // reurl.cc/Y6r94a
     training("jerry");
 
-    // ========================================================================================================== //
-    // Step2 : Recognition
+    // ==================================================Step2 : Recognition======================================================== //
     // Example: Input jerry Face, Recognized with jerry’s Face Model and get Result（JSON）.
     // Document: https://reurl.cc/Y6r9Ya
     Thread recognitionThread = new Thread(new Runnable() {
@@ -83,18 +82,17 @@ public class QuickStart {
       }
     });
     recognitionThread.start();
-    // ========================================================================================================== //
 
-    // Step3 : ModelInsert
+    // =================================================Step3 : ModelInsert========================================================= //
     // Document: https://reurl.cc/EzMpQm
     // 1.Example: Input leonard Face(Untrained Face) and Trained immediately
     training("leonard");
     // 2.then Insert leonard Face Model to Face Model and get Recognition Resultat the same time
     modelInsert("leonard");
 
-    // ========================================================================================================== //
+    // ================================================wait recognition thread done================================================== //
 
-    // wait recognition thread done
+    //
     synchronized (recognitionThread) {
       try {
         recognitionThread.wait();
@@ -103,8 +101,7 @@ public class QuickStart {
       }
     }
 
-    // ========================================================================================================== //
-    // Step4 : Model Append
+    // ==================================================Step4 : Model Append======================================================== //
     // Example: Append daniel and leonard Face Model into all face DB.
     // Document: https://reurl.cc/EzMpQm
     // 1.Execute train face instructions (see Training Procedure for details)
