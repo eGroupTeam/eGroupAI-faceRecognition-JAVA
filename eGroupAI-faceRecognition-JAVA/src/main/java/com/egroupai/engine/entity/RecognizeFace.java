@@ -2,10 +2,9 @@ package com.egroupai.engine.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.egroup.logback.util.LogUtil;
+import com.egroup.logback.util.LogUtil.LogType;
 import com.egroup.util.AttributeCheck;
-import com.egroup.util.CmdUtil;
 
 /**
  * @author 作者 Daniel
@@ -14,8 +13,6 @@ import com.egroup.util.CmdUtil;
  * @description:
  */
 public class RecognizeFace {
-  private static Logger LOGGER = LoggerFactory.getLogger(CmdUtil.class);
-
   public enum RECOGNIZEMODE_ {
     LIVENESS("liveness"), GENERAL("general");
 
@@ -59,9 +56,11 @@ public class RecognizeFace {
   private String mainResolution;
   // init program process
   private long responseTime;
+  private boolean isOutputFace;
   private boolean isOutputFrame;
   // init func
   private AttributeCheck attributeCheck;
+  private LogUtil logUtil = new LogUtil();
 
   public Double getThreshold() {
     return threshold;
@@ -201,6 +200,7 @@ public class RecognizeFace {
           + (isHideMainWindow == false ? " --show-main-window " : "") + (isHideThreadWindow == false ? " --show-thread-window " : "")
           + (attributeCheck.stringsNotNull(resolution) ? " --resolution " + resolution + " " : "--resolution 720p ")
           + (isOutputFrame == false || !attributeCheck.stringsNotNull(outputFramePath) ? "" : " --output-frame \"" + outputFramePath + "\" ")
+          + (isOutputFace == false || !attributeCheck.stringsNotNull(outputFacePath) ? "" : " --output-face \"" + outputFacePath + "\" ")
           + (!attributeCheck.stringsNotNull(outputFacePath) ? "" : "--output-face \"" + outputFacePath + "\" ") + inputSource + " "
           + (minimumFaceSize != null ? "--minimum-face-size " + minimumFaceSize + " " : "")
           + (attributeCheck.stringsNotNull(mainResolution) ? "--output-window-resolution " + mainResolution + " " : "")
@@ -211,7 +211,7 @@ public class RecognizeFace {
     } else {
       cli = null;
     }
-    LOGGER.info("RecognizeFace cli : " + cli);
+    logUtil.setLog("RecognizeFace cli : " + cli, LogType.INFO);
   }
 
   public void getStopCli(RECOGNIZEMODE_ recognizeMode_) {
@@ -228,7 +228,7 @@ public class RecognizeFace {
     } else {
       cli = null;
     }
-    LOGGER.info("Close RecognizeFace cli : " + cli);
+    logUtil.setLog("Close RecognizeFace cli : " + cli, LogType.INFO);
   }
 
   public void generateCli_server(RECOGNIZEMODE_ recognizemode_) {
@@ -251,7 +251,7 @@ public class RecognizeFace {
     } else {
       cli = null;
     }
-    LOGGER.info("RecognizeFace server cli : " + cli);
+    logUtil.setLog("RecognizeFace server cli : " + cli, LogType.INFO);
   }
 
   // public void generateCli_liveness_server() {
@@ -392,6 +392,14 @@ public class RecognizeFace {
 
   public void setIterationSearch(boolean isIterationSearch) {
     this.isIterationSearch = isIterationSearch;
+  }
+
+  public boolean isOutputFace() {
+    return isOutputFace;
+  }
+
+  public void setOutputFace(boolean isOutputFace) {
+    this.isOutputFace = isOutputFace;
   }
 
 

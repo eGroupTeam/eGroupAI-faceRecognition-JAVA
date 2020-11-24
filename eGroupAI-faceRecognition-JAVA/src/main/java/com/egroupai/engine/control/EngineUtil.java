@@ -39,8 +39,39 @@ import com.google.gson.Gson;
  * @version
  * @description:
  */
-public class EngineFunc {
+public class EngineUtil {
   private static Logger LOGGER = LoggerFactory.getLogger(CmdUtil.class);
+
+  public TrainResult trainFace(TrainFace trainFace, boolean deleteTrainResultStatus) {
+    // init func
+    final AttributeCheck attributeCheck = new AttributeCheck();
+    final CheckStatusUtil checkStatusUtil = new CheckStatusUtil();
+    // init variabl
+    TrainResult trainResult = new TrainResult();
+
+    trainFace.generateCli();
+    if (attributeCheck.listNotEmpty(trainFace.getCommandList())) {
+      final CmdUtil cmdUtil = new CmdUtil();
+      String trainResultLogPath = trainFace.getEnginePath() + "\\Status.TrainResultCPU.eGroup";
+      if (cmdUtil.cmdProcessBuilder(trainFace.getCommandList())) {
+        // init variable
+        trainResult = checkStatusUtil.trainFace(trainResultLogPath);
+        if (deleteTrainResultStatus) {
+          try {
+            Files.delete(Paths.get(trainResultLogPath));
+          } catch (IOException e) {
+            LOGGER.error(new Gson().toJson(e));
+          }
+        }
+      } else {
+        trainResult.setTrainCmdSuccess(false);
+      }
+    } else {
+      trainResult.setTrainCmdSuccess(false);
+    }
+    return trainResult;
+  }
+
 
   public boolean modelCompare(ModelCompare modelCompare) {
     boolean flag = false;
@@ -68,6 +99,7 @@ public class EngineFunc {
     boolean flag = false;
     // init func
     recognizeFace.generateCli();
+    LOGGER.info("cli=" + recognizeFace.getCli());
     if (recognizeFace.getCommandList() != null) {
       final CmdUtil cmdUtil = new CmdUtil();
       flag = cmdUtil.cmdProcessBuilder(recognizeFace.getCommandList());
@@ -148,49 +180,20 @@ public class EngineFunc {
     return hashMap;
   }
 
-  public TrainResult trainFace(TrainFace trainFace, boolean deleteTrainResultStatus) {
-    // init func
-    final AttributeCheck attributeCheck = new AttributeCheck();
-    final CheckStatusUtil checkStatusUtil = new CheckStatusUtil();
-    // init variabl
-    TrainResult trainResult = new TrainResult();
-
-    trainFace.generateCli();
-    if (attributeCheck.listNotEmpty(trainFace.getCommandList())) {
-      final CmdUtil cmdUtil = new CmdUtil();
-      if (cmdUtil.cmdProcessBuilder(trainFace.getCommandList()) && attributeCheck.stringsNotNull(trainFace.getTrainResultLogPath())) {
-        // init variable
-        trainResult = checkStatusUtil.trainFace(trainFace.getTrainResultLogPath());
-        if (deleteTrainResultStatus) {
-          try {
-            Files.delete(Paths.get(trainFace.getTrainResultLogPath()));
-          } catch (IOException e) {
-            LOGGER.error(new Gson().toJson(e));
-          }
-        }
-      } else {
-        trainResult.setTrainCmdSuccess(false);
-      }
-    } else {
-      trainResult.setTrainCmdSuccess(false);
-    }
-    return trainResult;
-  }
-
   public ModelAppendResult modelAppend(ModelAppend modelAppend, boolean deleteModelAppendStatus, long waitTime) {
     // init func
     final AttributeCheck attributeCheck = new AttributeCheck();
     // init variable
     ModelAppendResult modelAppendResult = new ModelAppendResult();
     if (modelAppend != null
-        && attributeCheck.stringsNotNull(modelAppend.getEnginePath(), modelAppend.getListPath(), modelAppend.getTrainedFaceDBPath(),
-            modelAppend.getModelAppendStatusPath())
+        && attributeCheck.stringsNotNull(modelAppend.getEnginePath(), modelAppend.getListPath(), modelAppend.getTrainedFaceDBPath())
         && (attributeCheck.listNotEmpty(modelAppend.getFaceDBList()) || !modelAppend.getFaceDBHashset().isEmpty())) {
       // init func
       final TxtUtil txtUtil = new TxtUtil();
       final CheckStatusUtil checkStatusUtil = new CheckStatusUtil();
       // init variable
       final List<String> dataList = new ArrayList<>();
+      final String modelAppendStatusPath = modelAppend.getEnginePath() + "\\Status.ModelAppend.eGroup";
 
       if (!modelAppend.getFaceDBHashset().isEmpty()) {
         for (String faceDBPath : modelAppend.getFaceDBHashset()) {
@@ -207,11 +210,11 @@ public class EngineFunc {
       if (modelAppend.getCommandList() != null) {
         final CmdUtil cmdUtil = new CmdUtil();
         if (cmdUtil.cmdProcessBuilder(modelAppend.getCommandList())) {
-          modelAppendResult = checkStatusUtil.modelAppend(modelAppend.getModelAppendStatusPath(), waitTime);
+          modelAppendResult = checkStatusUtil.modelAppend(modelAppendStatusPath, waitTime);
 
           if (deleteModelAppendStatus) {
             try {
-              Files.delete(Paths.get(modelAppend.getModelAppendStatusPath()));
+              Files.delete(Paths.get(modelAppendStatusPath));
             } catch (IOException e) {
               LOGGER.error(new Gson().toJson(e));
             }
@@ -271,8 +274,7 @@ public class EngineFunc {
     // init variable
     ModelInsertResult modelInsertResult = new ModelInsertResult();
 
-    if (modelInsert != null && attributeCheck.stringsNotNull(modelInsert.getModelInsertStatusPath())
-        && attributeCheck.listNotEmpty(modelInsert.getFaceDBList()) && attributeCheck.stringsNotNull(modelInsert.getListPath())) {
+    if (modelInsert != null && attributeCheck.listNotEmpty(modelInsert.getFaceDBList()) && attributeCheck.stringsNotNull(modelInsert.getListPath())) {
       // init func
       final TxtUtil txtUtil = new TxtUtil();
       final CheckStatusUtil checkStatusUtil = new CheckStatusUtil();
@@ -286,7 +288,7 @@ public class EngineFunc {
         dataList.add(modelInsert.getFaceDBList().get(i));
       }
       txtUtil.create(modelInsert.getListPath(), dataList, Charsets.BIG5);
-      modelInsertResult = checkStatusUtil.modelInsert(modelInsert.getModelInsertStatusPath(), waitTimeMs);
+      modelInsertResult = checkStatusUtil.modelInsert(modelInsertLog_path, waitTimeMs);
       if (deleteModelInsertStatusFlag) {
         modelInsertLog_file.delete();
       }

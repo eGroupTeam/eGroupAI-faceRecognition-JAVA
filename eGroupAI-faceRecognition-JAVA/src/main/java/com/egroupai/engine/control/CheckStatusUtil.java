@@ -789,13 +789,11 @@ public class CheckStatusUtil {
       final File modelInsertStatusFile = new File(modelInsertStatusPath);
       final TxtUtil txtUtil = new TxtUtil();
       // init variable
-      int waitCount = 0;
       try {
         while (true) {
-          if ((modelInsertStatusFile.exists() && modelInsertStatusFile.length() > 0) || waitCount == 5) {
+          if ((modelInsertStatusFile.exists() && modelInsertStatusFile.length() > 0)) {
             break;
           }
-          waitCount++;
           Thread.sleep(waitTimeMs / 5);
         }
       } catch (InterruptedException e) {
@@ -808,6 +806,12 @@ public class CheckStatusUtil {
         // init variable
         final List<ModelInsertInfo> modelInsertInfoList = new ArrayList<>();
         ModelInsertInfo modelInsertInfo;
+        String faceAndPeople[];
+        String currentfaceAndPeople[];
+        int face;
+        int people;
+        int currentDBFaceCout;
+        int currentDBPeopleCount;
 
         for (String modelInsertLine : modelInsertLineList) {
           // init variable
@@ -816,25 +820,25 @@ public class CheckStatusUtil {
 
           switch (modelInsertArray.length) {
             case 3:
-              if (modelInsertArray[1].equals("Fail")) {
-                modelInsertInfoList.add(modelInsertInfo);
-                modelInsertResult.setSuccess(false);
-              }
-              break;
-            case 5:
-              if (modelInsertArray[1].equals("Pass") && modelInsertArray[2].equals("InsertFace")) {
-                modelInsertInfo.setDatetimeString(modelInsertArray[0]);
-                modelInsertInfo.setInsertModelStatus(modelInsertArray[1]);
-                modelInsertInfo.setInsertPeopleCount(Integer.valueOf(modelInsertArray[3].substring(0, modelInsertArray[3].indexOf("/")).trim()));
-                modelInsertInfo.setInsertFacesCount(Integer.valueOf(modelInsertArray[3]
-                    .substring(modelInsertArray[3].indexOf("/") + 1, modelInsertArray[3].indexOf(" of faces/people were inserted")).trim()));
-                modelInsertInfo.setCurrDBFaceCout(Integer.valueOf(modelInsertArray[4]
-                    .substring(modelInsertArray[4].indexOf("CurrPeopleCount=") + 16, modelInsertArray[4].indexOf(" CurrFaceCount=")).trim()));
-                modelInsertInfo.setCurrDBPeopleCount(Integer
-                    .valueOf(modelInsertArray[4].substring(modelInsertArray[4].indexOf("CurrFaceCount=") + 14, modelInsertArray[4].length()).trim()));
+              if (modelInsertArray[1].equals("Pass")) {
                 modelInsertInfoList.add(modelInsertInfo);
                 modelInsertResult.setSuccess(true);
               }
+              break;
+            case 5:
+              faceAndPeople = modelInsertArray[3].replaceAll("Overall insert:", "").replace("faces/people", "").trim().split("/");
+              currentfaceAndPeople = modelInsertArray[4].replaceAll("CurrentDBFaceCout=", "").replace("CurrentDBPeopleCount=", "").trim().split(" ");
+              face = Integer.valueOf(faceAndPeople[0]);
+              people = Integer.valueOf(faceAndPeople[1]);
+              currentDBFaceCout = Integer.valueOf(currentfaceAndPeople[0]);
+              currentDBPeopleCount = Integer.valueOf(currentfaceAndPeople[1]);
+
+              modelInsertInfo.setInsertFacesCount(face);
+              modelInsertInfo.setInsertPeopleCount(people);
+              modelInsertInfo.setCurrDBFaceCout(currentDBFaceCout);
+              modelInsertInfo.setCurrDBPeopleCount(currentDBPeopleCount);
+              modelInsertInfoList.add(modelInsertInfo);
+              modelInsertResult.setSuccess(true);
               break;
             case 4:
               if (modelInsertArray[3].startsWith("Overall insert time: ")) {
@@ -853,17 +857,4 @@ public class CheckStatusUtil {
     }
     return modelInsertResult;
   }
-
-  // public static void main(String args[]){
-  //// String trainResultPath = "E:\\Desktop\\AP_Engine\\product_api_server\\engine_server\\Status.TrainResultCPU.eGroup";
-  //// TrainResult trainResult = trainFace(trainResultPath);
-  //// System.out.println("trainResult="+new Gson().toJson(trainResult));
-  //
-  // String enginePath = "E:\\Desktop\\AP_Engine\\product_api_server\\engine_liveness_server";
-  // String modelPath = "E:\\Desktop\\AP_Engine\\product_api_server\\model4_2_1";
-  // String startupStatusFilePath = "E:\\Desktop\\AP_Engine\\product_api_server\\engine_liveness_server\\Status.Startup.eGroup.backup";
-  //
-  // List<StartupStatus> startupStatusList = recognizeServerStartup4(enginePath, modelPath, startupStatusFilePath,3000,RECOGNIZEMODE_.LIVENESS);
-  // System.out.println("startupStatusList="+new Gson().toJson(startupStatusList));
-  // }
 }

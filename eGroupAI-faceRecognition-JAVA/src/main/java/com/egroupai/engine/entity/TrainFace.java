@@ -2,10 +2,9 @@ package com.egroupai.engine.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.egroup.logback.util.LogUtil;
+import com.egroup.logback.util.LogUtil.LogType;
 import com.egroup.util.AttributeCheck;
-import com.egroup.util.CmdUtil;
 
 /**
  * @author 作者 eGroupAI Team
@@ -14,8 +13,6 @@ import com.egroup.util.CmdUtil;
  * @description:
  */
 public class TrainFace {
-  private static Logger LOGGER = LoggerFactory.getLogger(CmdUtil.class);
-
   private boolean isModelExist;
   private String trainListPath;
   private String modelPath;
@@ -23,11 +20,9 @@ public class TrainFace {
   private List<String> commandList;
   private String disk;
   private TrainResult trainResult;
-  private String trainResultLogPath;
 
   // programe control
   private List<String> imagePathList;
-  private String imagePath;
   private String personId;
   private String imagePathJson;
   private boolean uploadFace = false;
@@ -39,6 +34,7 @@ public class TrainFace {
   private String enginePath;
   private List<String> trainResultList;
   private AttributeCheck attributeCheck;
+  private LogUtil logUtil;
 
   public AttributeCheck getAttributeCheck() {
     if (attributeCheck == null) {
@@ -84,6 +80,9 @@ public class TrainFace {
   }
 
   public void generateCli() {
+    if (logUtil == null) {
+      logUtil = new LogUtil();
+    }
     if (attributeCheck == null) {
       attributeCheck = new AttributeCheck();
     }
@@ -99,7 +98,7 @@ public class TrainFace {
     } else {
       cli = null;
     }
-    LOGGER.info("cli=" + cli);
+    logUtil.setLog("cli=" + cli, LogType.INFO);
   }
 
   public List<String> getCommandList() {
@@ -165,14 +164,6 @@ public class TrainFace {
     this.uploadFace = uploadFace;
   }
 
-  public String getImagePath() {
-    return imagePath;
-  }
-
-  public void setImagePath(String imagePath) {
-    this.imagePath = imagePath;
-  }
-
   public Integer getHasTrainFaceCount() {
     return hasTrainFaceCount;
   }
@@ -222,14 +213,6 @@ public class TrainFace {
 
   public void setTrainResult(TrainResult trainResult) {
     this.trainResult = trainResult;
-  }
-
-  public String getTrainResultLogPath() {
-    return trainResultLogPath;
-  }
-
-  public void setTrainResultLogPath(String trainResultLogPath) {
-    this.trainResultLogPath = trainResultLogPath;
   }
 
   public boolean isGGPass() {

@@ -23,7 +23,6 @@ public class ModelAppend {
   private StringBuilder cli;
   private List<String> commandList = new ArrayList<String>();
   private String disk;
-  private String modelAppendStatusPath;
   // program control
   private String enginePath;
   private HashSet<String> faceDBHashset = new HashSet<>();
@@ -123,13 +122,5 @@ public class ModelAppend {
 
   public void setEnginePath(String enginePath) {
     this.enginePath = enginePath;
-  }
-
-  public String getModelAppendStatusPath() {
-    return modelAppendStatusPath;
-  }
-
-  public void setModelAppendStatusPath(String modelAppendStatusPath) {
-    this.modelAppendStatusPath = modelAppendStatusPath;
   }
 }
