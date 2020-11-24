@@ -5,6 +5,7 @@
 * [Java Sample Code Video Tutorial](https://reurl.cc/Y6r9N4)
    * Clone Project
    * Import Project
+   * Download QuickStart resources folder , and put it in the folder name QuickStart at the disk C.
    * Run Java application - QuickStart Example
       * Application will call engine by cli
 
