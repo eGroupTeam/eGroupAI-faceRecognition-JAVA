@@ -23,7 +23,7 @@ import com.google.gson.Gson;
  * @author eGroupAI Team
  * @date 2020年11月23日 下午2:52:03
  * @version
- * @description: https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/getting-started#005300650074007500700020004500780061006d0070006c0065
+ * @description: eGroupAI document : https://reurl.cc/GrRo5x
  */
 public class QuickStart {
   private static Logger LOGGER = LoggerFactory.getLogger(QuickStart.class);
@@ -67,10 +67,15 @@ public class QuickStart {
   final static File leonardFaceImageFolder = new File(lenardFaceImageFolderPath.toString());
 
   public static void main(String args[]) {
-    // Step1 : Training - Example: Input jerry's Face, Create jerry's Face Model.
+    // Step1 : Training
+    // Example: Input jerry's Face, Create jerry's Face Model.
+    // Document: https: // reurl.cc/Y6r94a
     training("jerry");
+
     // ========================================================================================================== //
-    // Step2 : Recognition - Example: Input jerry Face, Recognized with jerry’s Face Model and get Result（JSON）.
+    // Step2 : Recognition
+    // Example: Input jerry Face, Recognized with jerry’s Face Model and get Result（JSON）.
+    // Document: https://reurl.cc/Y6r9Ya
     Thread recognitionThread = new Thread(new Runnable() {
       @Override
       public void run() {
@@ -81,6 +86,7 @@ public class QuickStart {
     // ========================================================================================================== //
 
     // Step3 : ModelInsert
+    // Document: https://reurl.cc/EzMpQm
     // 1.Example: Input leonard Face(Untrained Face) and Trained immediately
     training("leonard");
     // 2.then Insert leonard Face Model to Face Model and get Recognition Resultat the same time
@@ -98,7 +104,9 @@ public class QuickStart {
     }
 
     // ========================================================================================================== //
-    // Step4 : Model Append - Example: Append daniel and leonard Face Model into all face DB.
+    // Step4 : Model Append
+    // Example: Append daniel and leonard Face Model into all face DB.
+    // Document: https://reurl.cc/EzMpQm
     // 1.Execute train face instructions (see Training Procedure for details)
     training("daniel");
     // 2.Execute Model Append instructions (see Model Append Procedure for details)
@@ -113,9 +121,9 @@ public class QuickStart {
     recognitionThread.start();
   }
 
+
   /**
-   * Example: Input jerry's Face, Create jerry's Face Model.
-   * https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.2/getting-started#005200650063006f0067006e006900740069006f006e
+   * Input Face, Create Face Model. Document : https: // reurl.cc/Y6r94a
    * 
    * @author eGroupAI Team
    *
@@ -143,15 +151,13 @@ public class QuickStart {
   }
 
   /**
-   * https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.2/getting-started#005200650063006f0067006e006900740069006f006e
-   * https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.2/getting-started#005200650063006f0067006e006900740069006f006e
+   * Example: Recognized with Face Model and get Result（JSON）. Document: https://reurl.cc/Y6r9Ya
    * 
    * @author eGroupAI Team
    *
-   * @param useFaceDB
+   * @param usedFaceDB
    */
-  public static void recognition(String useFaceDB) {
-    // https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/getting-started#0054007200610069006e0069006e0067
+  public static void recognition(String usedFaceDB) {
     // Create folder
     if (!outputfaceFile.exists()) {
       outputfaceFile.mkdirs();
@@ -166,7 +172,7 @@ public class QuickStart {
     // Set recognition variable
     final RecognizeFace recognizeFace = new RecognizeFace();
     recognizeFace.setEnginePath(enginePath.toString());
-    recognizeFace.setTrainedFaceDBPath(useFaceDB);
+    recognizeFace.setTrainedFaceDBPath(usedFaceDB);
     recognizeFace.setOutputFacePath(outputfacePath.toString());
     recognizeFace.setOutputFramePath(outputframepath.toString());
     recognizeFace.setJsonPath(jsonFolderPath + "\\output");
@@ -187,15 +193,14 @@ public class QuickStart {
   }
 
   /**
-   * Example: Input leonard Face(Untrained Face) and Trained immediately, then Insert leonard Face Model to Face Model and get Recognition Result at
-   * the same time. https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.2/getting-started#004d006f00640065006c00200049006e0073006500720074
+   * Example: Input Face(Untrained Face) and Trained immediately, then Insert Face Model to Recognition and get Result at the same time. Document:
+   * https://reurl.cc/EzMpQm
    * 
    * @author eGroupAI Team
    *
    * @param name
    */
   public static void modelInsert(String name) {
-    // https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/getting-started#0054007200610069006e0069006e0067
     // Set insert facedb list
     List<String> faceDBList = new ArrayList<>();
     faceDBList.add(getFaceDBPath(name) + ".faceDB");
@@ -209,8 +214,7 @@ public class QuickStart {
   }
 
   /**
-   * Example: Append daniel and leonard Face Model into all face DB.
-   * https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.2/getting-started#004d006f00640065006c00200041007000700065006e0064
+   * Example: Append person Face Model into all face DB. Document: https://reurl.cc/EzMpQm
    * 
    * @author eGroupAI Team
    *
