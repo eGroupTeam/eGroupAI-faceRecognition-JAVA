@@ -5,7 +5,11 @@
 * [Java Sample Code Video Tutorial](https://reurl.cc/Y6r9N4)
    * Clone Project
    * Import Project
-   * Download QuickStart resources folder , and put it in the folder name QuickStart at the disk C.
+   * Create the folder at disk c name QuickStart 
+      * Download engine and put in the QuickStart 
+          * e.g. C:\QuickStart_bk\engine\eGroupAI_FaceEngine_CPU_Windows_V4.2.2
+      * Download QuickStart resources and put in the QuickStart 
+          * e.g. C:\QuickStart\engine\eGroupAI_FaceEngine_CPU_Windows_V4.2.2\resources
    * Run Java application - QuickStart Example
       * Application will call engine by cli
 
