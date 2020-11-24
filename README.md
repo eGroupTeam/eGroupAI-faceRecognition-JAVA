@@ -6,6 +6,7 @@
    * Clone Project
    * Import Project
    * Run Java application - QuickStart Example
+      * Application will call engine by cli
 
 # [Document](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/introduce)
 System Structure
