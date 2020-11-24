@@ -36,7 +36,7 @@ public class QuickStart {
   final static boolean logDeleteFlag = false;
   // init path
   final static String quickStartPath = "C:\\QuickStart";
-  final static StringBuilder enginePath = new StringBuilder(quickStartPath + "\\engine\\eGroupAI_FaceEngine_CPU_Windows_V4.2.2");
+  final static StringBuilder enginePath = new StringBuilder(quickStartPath + "\\eGroupAI_FaceEngine_CPU_Windows_V4.2.2");
   final static StringBuilder faceDBPath = new StringBuilder(enginePath + "\\eGroup");
   final static StringBuilder resourcesPath = new StringBuilder(enginePath + "\\resources");
   final static StringBuilder trainResultLogPath = new StringBuilder(enginePath + "\\Status.TrainResultCPU.eGroup");
@@ -52,6 +52,7 @@ public class QuickStart {
   final static String resolution = "720p";
   // init file
   final static File outputfaceFile = new File(outputfacePath.toString());
+  final static File faceDBFile = new File(faceDBPath.toString());
   final static File outputframeFile = new File(outputframepath.toString());
   final static File jsonFolderFile = new File(jsonFolderPath.toString());
   // init person path
@@ -67,6 +68,19 @@ public class QuickStart {
   final static File leonardFaceImageFolder = new File(lenardFaceImageFolderPath.toString());
 
   public static void main(String args[]) {
+    // ================================================== Create folder========================================================= //
+    if (!faceDBFile.exists()) {
+      faceDBFile.mkdirs();
+    }
+    if (!outputfaceFile.exists()) {
+      outputfaceFile.mkdirs();
+    }
+    if (!outputframeFile.exists()) {
+      outputframeFile.mkdirs();
+    }
+    if (!jsonFolderFile.exists()) {
+      jsonFolderFile.mkdirs();
+    }
     // ================================================== Step1 : Training========================================================= //
     // Example: Input jerry's Face, Create jerry's Face Model.
     // Document: https: // reurl.cc/Y6r94a
@@ -155,17 +169,6 @@ public class QuickStart {
    * @param usedFaceDB
    */
   public static void recognition(String usedFaceDB) {
-    // Create folder
-    if (!outputfaceFile.exists()) {
-      outputfaceFile.mkdirs();
-    }
-    if (!outputframeFile.exists()) {
-      outputframeFile.mkdirs();
-    }
-    if (!jsonFolderFile.exists()) {
-      jsonFolderFile.mkdirs();
-    }
-
     // Set recognition variable
     final RecognizeFace recognizeFace = new RecognizeFace();
     recognizeFace.setEnginePath(enginePath.toString());
