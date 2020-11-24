@@ -1,5 +1,12 @@
 # Version V4.2.2(2020/11/20 update)
 
+# QuickStart
+* [Document](https://reurl.cc/Y6r9N4)
+* [Java Sample Code Video Tutorial](https://reurl.cc/Y6r9N4)
+   * Clone Project
+   * Import Project
+   * Run Java application - QuickStart Example
+
 # [Introduce](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/introduce)
 System Structure
 ## Features
