@@ -2,7 +2,7 @@
 
 # QuickStart
 * [QuickStart Document](https://reurl.cc/Y6r9N4)
-* [Java Sample Code Video Tutorial](https://reurl.cc/Y6r9N4)
+* [Face Recognition SDK - Quick Start by JAVA](https://reurl.cc/Y6r9N4)
    * Clone Project
    * Import Project
    * Create the folder at disk c name QuickStart 
