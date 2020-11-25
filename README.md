@@ -7,9 +7,9 @@
    * Copy project env into project
    * Import Project
    * Create the folder at disk c name QuickStart and copy engine,license and resources into the folder
-      * Download engine and put in the QuickStart ( [login your account](https://www.egroup.com.tw) )
+      * Download engine and put in the QuickStart ( [Login](https://www.egroup.com.tw) )
           * e.g. C:\QuickStart_bk\eGroupAI_FaceEngine_CPU_Windows_V4.2.2
-      * Download license.key and put int the engine foler
+      * Download license.key and put int the engine foler( [Login](https://www.egroup.com.tw) )
           * e.g. C:\QuickStart\eGroupAI_FaceEngine_CPU_Windows_V4.2.2\license.key
       * Download QuickStart resources and put in the QuickStart 
           * e.g. C:\QuickStart\eGroupAI_FaceEngine_CPU_Windows_V4.2.2\resources
