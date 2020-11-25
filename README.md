@@ -2,27 +2,42 @@
 
 # QuickStart
 * [QuickStart Document](https://reurl.cc/Y6r9N4)
-* [Java Sample Code Video Tutorial](https://reurl.cc/Y6r9N4)
+* [eGroupAI【Tutorial】│ Face Recognition SDK - Quick Start by JAVA](https://reurl.cc/Z759b3)
    * Clone Project
+   * Copy project env into project
    * Import Project
+   * Create the folder at disk c name QuickStart and copy engine,license and resources into the folder
+      * Download engine and put in the QuickStart ( [login your account](https://www.egroup.com.tw) )
+          * e.g. C:\QuickStart_bk\eGroupAI_FaceEngine_CPU_Windows_V4.2.2
+      * Download license.key and put int the engine foler
+          * e.g. C:\QuickStart\eGroupAI_FaceEngine_CPU_Windows_V4.2.2\license.key
+      * Download QuickStart resources and put in the QuickStart 
+          * e.g. C:\QuickStart\eGroupAI_FaceEngine_CPU_Windows_V4.2.2\resources
    * Run Java application - QuickStart Example
       * Application will call engine by cli
+          * Training Jerry faceDB
+          * Start 1st recognition - video
+          * Training Leonard faceDB
+          * Model Insert Leonard faceDB
+          * Get 1st recognition result
+          * Training Daniel faceDB and Append all person faceDB to all.faceDB
+          * Start 2nd recognition - video
+          * Get 2nd recognition result
 
 # [Document](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/introduce)
-System Structure
 ## Features
-* Train：Input specific face, Create a dedicated face model.
-* Recognition：Input Face, Recognized with face model and get result.
-* Model Insert：Input untrained face and Trained immediately, Insert the new face model to face model
+* [Train](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/train#0054007200610069006e0069006e0067002000500072006f006300650064007500720065)：Input specific face, Create a dedicated face model.
+* [Recognition](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/recognize#005200650063006f0067006e006900740069006f006e)：Input Face, Recognized with face model and get result.
+* [Model Insert](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/model-insert#004d006f00640065006c00200049006e0073006500720074)：Input untrained face and Trained immediately, Insert the new face model to face model
 and get result at the same time.
-* Model Append：Append different face model into one.
-* Model Switch：Switch to the new face model and get result at the same time.
+* [Model Append](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/model-append#004d006f00640065006c00200041007000700065006e0064)：Append different face model into one.
+* [Model Switch](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/model-switch#004d006f00640065006c0020005300770069007400630068)：Switch to the new face model and get result at the same time.
 
 ## Integration
 ### Procedure
-1. Using Application software trigger Train to Create Face Model.
-2. Application software read image file and trigger Recognition to do comparison with Face Model.
-3. Output Comparison Result(JSON format) to Application software.
+1. Using Application software trigger [Train](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/model-switch#004d006f00640065006c0020005300770069007400630068) to Create Face Model.
+2. Application software read image file and trigger [Recognition](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/recognize#005200650063006f0067006e006900740069006f006e) to do comparison with Face Model.
+3. Output Comparison [Result(JSON format)](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/recognize#0052006500730075006c00740028004a0053004f004e00200066006f0072006d006100740029) to Application software.
 ### [Flow chart](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/introduce)
 
 # Environments Required
