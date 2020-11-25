@@ -2,10 +2,11 @@
 
 # QuickStart
 * [QuickStart Document](https://reurl.cc/Y6r9N4)
-* [Face Recognition SDK - Quick Start by JAVA](https://reurl.cc/Z759b3)
+* [eGroupAI【Tutorial】│ Face Recognition SDK - Quick Start by JAVA](https://reurl.cc/Z759b3)
    * Clone Project
+   * Copy project env into project
    * Import Project
-   * Create the folder at disk c name QuickStart 
+   * Create the folder at disk c name QuickStart and copy engine,license and resources into Disk C folder QuickSart 
       * Download engine and put in the QuickStart ( [login your account](https://www.egroup.com.tw) )
           * e.g. C:\QuickStart_bk\eGroupAI_FaceEngine_CPU_Windows_V4.2.2
       * Download license.key and put int the engine foler
@@ -14,6 +15,14 @@
           * e.g. C:\QuickStart\eGroupAI_FaceEngine_CPU_Windows_V4.2.2\resources
    * Run Java application - QuickStart Example
       * Application will call engine by cli
+            * Training Jerry faceDB
+            * Start 1st recognition - video
+            * Training Leonard faceDB
+            * Model Insert Leonard faceDB
+            * Get 1st recognition result
+            * Training Daniel faceDB and Append all person faceDB to all.faceDB
+            * Start 2nd recognition - video
+            * Get 2nd recognition result
 
 # [Document](https://www.egroup.com.tw/en/docs/windows-cpu/v4.2.1/introduce)
 ## Features
