@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.egroup.logback.entity.LogReport;
-import com.egroup.logback.util.LogUtil;
-import com.egroup.logback.util.LogUtil.LogType;
 import com.egroup.util.AttributeCheck;
 import com.egroup.util.CopyUtil;
 import com.egroup.util.TxtUtil;
@@ -63,7 +60,6 @@ public class GetResultUtil {
     if (sourceJson.exists() && sourceJson.length() > 0) {
       // init func
       final TxtUtil txtUtil = new TxtUtil();
-      final LogUtil logUtil = new LogUtil();
       // init variable
       String jsonContent;
       jsonContent = txtUtil.read_content(jsonFileName.toString());
@@ -71,7 +67,7 @@ public class GetResultUtil {
       try {
         copyUtil.copyFile(sourceJson, destJson);
       } catch (IOException e) {
-        logUtil.setLog(gson.toJson(e.getMessage()), LogType.ERROR);
+        LOGGER.error(gson.toJson(e.getMessage()));
       }
 
       // If has data
@@ -126,7 +122,6 @@ public class GetResultUtil {
       // init func
       final Gson gson = new Gson();
       final CopyUtil copyUtil = new CopyUtil();
-      final LogUtil logUtil = new LogUtil();
 
       // init variable
       final Type faceListType = new TypeToken<ArrayList<Face>>() {}.getType();
@@ -143,7 +138,7 @@ public class GetResultUtil {
         try {
           copyUtil.copyFile(sourceJson, destJson);
         } catch (IOException e) {
-          logUtil.setLog(gson.toJson(e.getMessage()), LogType.ERROR);
+          LOGGER.error(gson.toJson(e.getMessage()));
         }
         jsonContent = txtUtil.read_content(jsonFileName.toString());
 
@@ -176,7 +171,6 @@ public class GetResultUtil {
   public List<Face> serverPhotoResult(String jsonPath, String jsonName, Boolean deleteJson) {
     // init func
     final Gson gson = new Gson();
-    final LogUtil logUtil = new LogUtil();
 
     // init variable
     final Type faceListType = new TypeToken<ArrayList<Face>>() {}.getType();
@@ -202,31 +196,10 @@ public class GetResultUtil {
         try {
           Files.delete(sourceJson_filePath);
         } catch (IOException e) {
-          final LogReport logReport = new LogReport();
-          logReport.setFunction("photoResult");
-          logReport.setMessage(e.getMessage());
-          logReport.setObject(sourceJson_filePath);
-          logUtil.setLog(logReport, LogType.ERROR);
+          LOGGER.error(gson.toJson(e.getMessage()));
         }
       }
     }
     return faceList;
   }
-
-  // public static void main(String args[]){
-  // String jsonPath = "E:\\Desktop\\AP_Engine\\product_facego\\eGroupAI_FaceEngine_CPU_V4.2.0";
-  // String jsonName = "output.cache.egroup";
-  // List<Face> faceList = cacheResult(jsonPath, jsonName);
-  // System.out.println("faceList="+new Gson().toJson(faceList));
-  //
-  // jsonPath = "E:\\Desktop\\AP_Engine\\product_api_server\\engine_liveness_server";
-  // jsonName = "8a0a55a969e24484b60c295e55e3833f";
-  // faceList = serverPhotoResult(jsonPath, jsonName,false);
-  // System.out.println("faceList="+new Gson().toJson(faceList));
-
-  // String jsonName = "output.2020-04-16.egroup";
-  // allResult(jsonPath, jsonName, 0, true);
-  // List<Face> faceList = allResult(jsonPath, jsonName, 0, true);
-  // System.out.println("faceList="+new Gson().toJson(faceList));
-  // }
 }

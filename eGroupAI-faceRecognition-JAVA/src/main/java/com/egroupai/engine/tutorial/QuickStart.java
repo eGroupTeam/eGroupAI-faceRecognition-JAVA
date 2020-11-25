@@ -36,7 +36,7 @@ public class QuickStart {
   final static boolean logDeleteFlag = false;
   // init path
   final static String quickStartPath = "C:\\QuickStart";
-  final static StringBuilder enginePath = new StringBuilder(quickStartPath + "\\engine\\eGroupAI_FaceEngine_CPU_Windows_V4.2.2");
+  final static StringBuilder enginePath = new StringBuilder(quickStartPath + "\\eGroupAI_FaceEngine_CPU_Windows_V4.2.2");
   final static StringBuilder faceDBPath = new StringBuilder(enginePath + "\\eGroup");
   final static StringBuilder resourcesPath = new StringBuilder(enginePath + "\\resources");
   final static StringBuilder trainResultLogPath = new StringBuilder(enginePath + "\\Status.TrainResultCPU.eGroup");

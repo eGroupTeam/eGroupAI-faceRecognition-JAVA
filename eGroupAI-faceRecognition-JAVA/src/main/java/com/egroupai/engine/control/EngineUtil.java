@@ -107,17 +107,6 @@ public class EngineUtil {
     return flag;
   }
 
-  public boolean recognizeFace_server(RecognizeFace recognizeFace, RECOGNIZEMODE_ recognizeMode_) {
-    boolean flag = false;
-    // init func
-    recognizeFace.generateCli_server(recognizeMode_);
-    if (recognizeFace.getCommandList_server() != null) {
-      final CmdUtil cmdUtil = new CmdUtil();
-      flag = cmdUtil.server_cmdProcessBuilder(recognizeFace.getCommandList_server());
-    }
-    return flag;
-  }
-
   public HashMap<String, Boolean> recognizeFace(List<RecognizeFace> recognizeFaceList, boolean waitRecognizeDone) {
     // init func
     final Gson gson = new Gson();
@@ -147,8 +136,8 @@ public class EngineUtil {
         });
         resultList.add(future);
       }
-
       // Monitor execute thread status
+      executorService.shutdown();
       for (Future<String> fs : resultList) {
         try {
           while (!fs.isDone());

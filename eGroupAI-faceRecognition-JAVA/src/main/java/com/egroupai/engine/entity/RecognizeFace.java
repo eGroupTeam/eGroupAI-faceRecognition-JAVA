@@ -2,8 +2,8 @@ package com.egroupai.engine.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.egroup.logback.util.LogUtil;
-import com.egroup.logback.util.LogUtil.LogType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.egroup.util.AttributeCheck;
 
 /**
@@ -13,6 +13,8 @@ import com.egroup.util.AttributeCheck;
  * @description:
  */
 public class RecognizeFace {
+  private static Logger LOGGER = LoggerFactory.getLogger(RecognizeFace.class);
+
   public enum RECOGNIZEMODE_ {
     LIVENESS("liveness"), GENERAL("general");
 
@@ -43,7 +45,6 @@ public class RecognizeFace {
   private String jsonPath;
   private StringBuilder cli;
   private List<String> commandList;
-  private List<String> commandList_server;
   private String disk;
   private String enginePath;
   private boolean isHideMainWindow = true;
@@ -60,7 +61,6 @@ public class RecognizeFace {
   private boolean isOutputFrame;
   // init func
   private AttributeCheck attributeCheck;
-  private LogUtil logUtil = new LogUtil();
 
   public Double getThreshold() {
     return threshold;
@@ -211,7 +211,7 @@ public class RecognizeFace {
     } else {
       cli = null;
     }
-    logUtil.setLog("RecognizeFace cli : " + cli, LogType.INFO);
+    LOGGER.info("RecognizeFace cli : " + cli);
   }
 
   public void getStopCli(RECOGNIZEMODE_ recognizeMode_) {
@@ -228,49 +228,8 @@ public class RecognizeFace {
     } else {
       cli = null;
     }
-    logUtil.setLog("Close RecognizeFace cli : " + cli, LogType.INFO);
+    LOGGER.info("RecognizeFace cli : " + cli);
   }
-
-  public void generateCli_server(RECOGNIZEMODE_ recognizemode_) {
-    if (attributeCheck == null) {
-      attributeCheck = new AttributeCheck();
-    }
-    this.disk = enginePath.substring(0, 1);
-    if (attributeCheck.stringsNotNull(enginePath, disk, trainedFaceDBPath)) {
-      if (!recognizemode_.getValue().equalsIgnoreCase("liveness")) {
-        cli =
-            new StringBuilder("cd " + enginePath + " && " + disk + ": && RecognizeFace " + (threshold != null ? "--threshold " + threshold + " " : "")
-                + (resolution != null ? "--resolution " + resolution + " " : "") + (isIterationSearch == true ? "--enable-iteration-search " : "")
-                + (isOnface == true ? "--one-face " : "") + " \"" + trainedFaceDBPath + "\" ");
-      } else {
-        cli = new StringBuilder(
-            "cd " + enginePath + " && " + disk + ": && LivenessDetectionServer " + (resolution != null ? "--resolution " + resolution + " " : "")
-                + (threshold != null ? "--threshold " + threshold + " " : "") + (isIterationSearch == true ? "--enable-iteration-search " : "")
-                + (isOnface == true ? "--one-face " : "") + " \"" + trainedFaceDBPath + "\" ");
-      }
-    } else {
-      cli = null;
-    }
-    logUtil.setLog("RecognizeFace server cli : " + cli, LogType.INFO);
-  }
-
-  // public void generateCli_liveness_server() {
-  // if(attributeCheck==null){
-  // attributeCheck = new AttributeCheck();
-  // }
-  // this.disk = enginePath.substring(0, 1);
-  // if (attributeCheck.stringsNotNull(enginePath, disk,trainedFaceDBPath)) {
-  // cli = new StringBuilder("cd " + enginePath + " && " + disk + ": && LivenessDetectionServer "
-  // + (resolution != null ? "--resolution " + resolution + " " : "")
-  // + (threshold != null ? "--threshold " + threshold + " " : "")
-  // + (isIterationSearch==true?"--enable-iteration-search ":"")
-  // + (isOnface==true?"--one-face ":"")
-  // + " \""+trainedFaceDBPath+"\" ");
-  // } else {
-  // cli = null;
-  // }
-  // logUtil.setLog("RecognizeFace liveness servercli : "+cli, LogType.INFO);
-  // }
 
   public List<String> getCommandList() {
     if (attributeCheck == null) {
@@ -287,23 +246,6 @@ public class RecognizeFace {
 
   public void setCommandList(List<String> commandList) {
     this.commandList = commandList;
-  }
-
-  public List<String> getCommandList_server() {
-    if (attributeCheck == null) {
-      attributeCheck = new AttributeCheck();
-    }
-    if (attributeCheck.stringsNotNull(cli.toString())) {
-      commandList_server = new ArrayList<String>();
-      commandList_server.add("cmd");
-      commandList_server.add("/C");
-      commandList_server.add(disk + ": && " + cli.toString().replace("/", "/"));
-    }
-    return commandList_server;
-  }
-
-  public void setCommandList_server(List<String> commandList_server) {
-    this.commandList_server = commandList_server;
   }
 
   public String getDisk() {

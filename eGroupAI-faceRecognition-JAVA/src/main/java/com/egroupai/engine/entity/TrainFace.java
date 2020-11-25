@@ -2,8 +2,8 @@ package com.egroupai.engine.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.egroup.logback.util.LogUtil;
-import com.egroup.logback.util.LogUtil.LogType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.egroup.util.AttributeCheck;
 
 /**
@@ -13,6 +13,8 @@ import com.egroup.util.AttributeCheck;
  * @description:
  */
 public class TrainFace {
+  private static Logger LOGGER = LoggerFactory.getLogger(TrainFace.class);
+
   private boolean isModelExist;
   private String trainListPath;
   private String modelPath;
@@ -34,7 +36,6 @@ public class TrainFace {
   private String enginePath;
   private List<String> trainResultList;
   private AttributeCheck attributeCheck;
-  private LogUtil logUtil;
 
   public AttributeCheck getAttributeCheck() {
     if (attributeCheck == null) {
@@ -80,9 +81,6 @@ public class TrainFace {
   }
 
   public void generateCli() {
-    if (logUtil == null) {
-      logUtil = new LogUtil();
-    }
     if (attributeCheck == null) {
       attributeCheck = new AttributeCheck();
     }
@@ -98,7 +96,7 @@ public class TrainFace {
     } else {
       cli = null;
     }
-    logUtil.setLog("cli=" + cli, LogType.INFO);
+    LOGGER.info("cli=" + cli);
   }
 
   public List<String> getCommandList() {
