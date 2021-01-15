@@ -617,7 +617,7 @@ public class CheckStatusUtil {
     // init func
     final AttributeCheck attributeCheck = new AttributeCheck();
     // init variable
-    ModelAppendResult modelAppendResult = new ModelAppendResult();
+    ModelAppendResult modelAppendResult = null;
 
     if (attributeCheck.stringsNotNull(modelAppendPath)) {
       // init func
@@ -640,68 +640,72 @@ public class CheckStatusUtil {
       }
 
       // Get the model append log
-      final List<String> modelAppendLineList = txtUtil.read_lineList(modelAppendPath, Charsets.UTF8);
-      if (attributeCheck.listNotEmpty(modelAppendLineList)) {
-        // init variable
-        List<ModelAppendInfo> modelAppendInfoList = new ArrayList<>();
-        ModelAppendInfo modelAppendInfo = new ModelAppendInfo();
-
-        for (String modelAppendLine : modelAppendLineList) {
+      if (modelAppendFile.exists() && modelAppendFile.length() > 0) {
+        modelAppendResult = new ModelAppendResult();
+        final List<String> modelAppendLineList = txtUtil.read_lineList(modelAppendPath, Charsets.UTF8);
+        if (attributeCheck.listNotEmpty(modelAppendLineList)) {
           // init variable
-          String modelAppendArray[] = modelAppendLine.split("\\t");
-          switch (modelAppendArray.length) {
-            case 5:
-              if (modelAppendArray[2].contains("DBSize")) {
-                modelAppendInfo.setDBSizeCheckStatus(modelAppendArray[1]);
-                modelAppendInfo.setDBSize(Integer.valueOf(modelAppendArray[2].substring(7, modelAppendArray[2].length()).trim()));
-                modelAppendInfo.setDBFaceDBPath(modelAppendArray[3]);
-                modelAppendInfo.setSucess(true);
-                modelAppendInfoList.add(modelAppendInfo);
-                modelAppendInfo = new ModelAppendInfo();
-              }
-              break;
-            case 4:
-              if (modelAppendArray[1].equals("Fail")) {
-                modelAppendInfo.setSucess(false);
-                modelAppendInfo.setErrorMessage(modelAppendArray[2]);
-                modelAppendInfoList.add(modelAppendInfo);
-                modelAppendInfo = new ModelAppendInfo();
-              }
-              if (modelAppendArray[2].equals("Parsingfile")) {
-                modelAppendResult.setModelListPath(modelAppendArray[3].replaceAll("file: ", ""));
-                modelAppendResult.setModelListCheckStatus(modelAppendArray[1]);
-              } else if (modelAppendArray[2].equals("WorkingFolder")) {
-                modelAppendInfo.setWorkingFolderCheckStatus(modelAppendArray[1]);
-                modelAppendInfo.setWorkingFolderSize(Double.valueOf(
-                    modelAppendArray[3].replace("Not enough space to working folder (", "").substring(1, (modelAppendArray[3].indexOf("GB")))));
-                modelAppendInfo.setWorkingFolderStatus(
-                    modelAppendArray[3].substring((modelAppendArray[3].indexOf("GB") + 3), (modelAppendArray[3].lastIndexOf("("))).trim());
-              } else if (modelAppendArray[2].equals("OutputFaceDB")) {
-                modelAppendInfo.setOutputFaceDBCheckStatus(modelAppendArray[1]);
-                modelAppendInfo.setOutputFaceDBSize(Double.valueOf(
-                    modelAppendArray[3].replace("Not enough space to Output Binary file (", "").substring(1, (modelAppendArray[3].indexOf("GB")))));
-                modelAppendInfo.setOutputFaceDBStatus(
-                    modelAppendArray[3].substring((modelAppendArray[3].indexOf("GB") + 3), (modelAppendArray[3].lastIndexOf("("))).trim());
-              }
-              break;
-            case 1:
-              if (modelAppendArray[0].startsWith("Total faces: ")) {
-                modelAppendResult.setTotalFaceCount(Integer.valueOf(modelAppendArray[0]
-                    .substring(modelAppendArray[0].indexOf("Total faces: ") + 12, modelAppendArray[0].indexOf("in the appended new model")).trim()));
-              } else {
-                modelAppendResult.setAppendPassCount(
-                    Integer.valueOf(modelAppendArray[0].substring(0, modelAppendArray[0].indexOf("of models appended pass")).trim()));
-                modelAppendResult.setAppendFailCount(Integer.valueOf(modelAppendArray[0]
-                    .substring(modelAppendArray[0].indexOf("/") + 1, modelAppendArray[0].indexOf("of models appended failed")).trim()));
-              }
-              break;
-            default:
-              break;
-          }
+          List<ModelAppendInfo> modelAppendInfoList = new ArrayList<>();
+          ModelAppendInfo modelAppendInfo = new ModelAppendInfo();
 
+          for (String modelAppendLine : modelAppendLineList) {
+            // init variable
+            String modelAppendArray[] = modelAppendLine.split("\\t");
+            switch (modelAppendArray.length) {
+              case 5:
+                if (modelAppendArray[2].contains("DBSize")) {
+                  modelAppendInfo.setDBSizeCheckStatus(modelAppendArray[1]);
+                  modelAppendInfo.setDBSize(Integer.valueOf(modelAppendArray[2].substring(7, modelAppendArray[2].length()).trim()));
+                  modelAppendInfo.setDBFaceDBPath(modelAppendArray[3]);
+                  modelAppendInfo.setSucess(true);
+                  modelAppendInfoList.add(modelAppendInfo);
+                  modelAppendInfo = new ModelAppendInfo();
+                }
+                break;
+              case 4:
+                if (modelAppendArray[1].equals("Fail")) {
+                  modelAppendInfo.setSucess(false);
+                  modelAppendInfo.setErrorMessage(modelAppendArray[2]);
+                  modelAppendInfoList.add(modelAppendInfo);
+                  modelAppendInfo = new ModelAppendInfo();
+                }
+                if (modelAppendArray[2].equals("Parsingfile")) {
+                  modelAppendResult.setModelListPath(modelAppendArray[3].replaceAll("file: ", ""));
+                  modelAppendResult.setModelListCheckStatus(modelAppendArray[1]);
+                } else if (modelAppendArray[2].equals("WorkingFolder")) {
+                  modelAppendInfo.setWorkingFolderCheckStatus(modelAppendArray[1]);
+                  modelAppendInfo.setWorkingFolderSize(Double.valueOf(
+                      modelAppendArray[3].replace("Not enough space to working folder (", "").substring(1, (modelAppendArray[3].indexOf("GB")))));
+                  modelAppendInfo.setWorkingFolderStatus(
+                      modelAppendArray[3].substring((modelAppendArray[3].indexOf("GB") + 3), (modelAppendArray[3].lastIndexOf("("))).trim());
+                } else if (modelAppendArray[2].equals("OutputFaceDB")) {
+                  modelAppendInfo.setOutputFaceDBCheckStatus(modelAppendArray[1]);
+                  modelAppendInfo.setOutputFaceDBSize(Double.valueOf(
+                      modelAppendArray[3].replace("Not enough space to Output Binary file (", "").substring(1, (modelAppendArray[3].indexOf("GB")))));
+                  modelAppendInfo.setOutputFaceDBStatus(
+                      modelAppendArray[3].substring((modelAppendArray[3].indexOf("GB") + 3), (modelAppendArray[3].lastIndexOf("("))).trim());
+                }
+                break;
+              case 1:
+                if (modelAppendArray[0].startsWith("Total faces: ")) {
+                  modelAppendResult.setTotalFaceCount(Integer.valueOf(modelAppendArray[0]
+                      .substring(modelAppendArray[0].indexOf("Total faces: ") + 12, modelAppendArray[0].indexOf("in the appended new model"))
+                      .trim()));
+                } else {
+                  modelAppendResult.setAppendPassCount(
+                      Integer.valueOf(modelAppendArray[0].substring(0, modelAppendArray[0].indexOf("of models appended pass")).trim()));
+                  modelAppendResult.setAppendFailCount(Integer.valueOf(modelAppendArray[0]
+                      .substring(modelAppendArray[0].indexOf("/") + 1, modelAppendArray[0].indexOf("of models appended failed")).trim()));
+                }
+                break;
+              default:
+                break;
+            }
+
+          }
+          // set the model append result info
+          modelAppendResult.setModelAppendInfoList(modelAppendInfoList);
         }
-        // set the model append result info
-        modelAppendResult.setModelAppendInfoList(modelAppendInfoList);
       }
     }
     return modelAppendResult;
@@ -720,7 +724,7 @@ public class CheckStatusUtil {
     // init func
     final AttributeCheck attributeCheck = new AttributeCheck();
     // init variable
-    final ModelSwitchResult modelSwitchResult = new ModelSwitchResult();
+    ModelSwitchResult modelSwitchResult = null;
 
     if (attributeCheck.stringsNotNull(modelSwitchStatusPath)) {
       // init variable
@@ -729,44 +733,50 @@ public class CheckStatusUtil {
       final TxtUtil txtUtil = new TxtUtil();
       // init variable
       boolean flag = true;
+      int waitCount = 0;
 
       try {
         while (true) {
-          if (modelSwitchStatusFile.exists() && modelSwitchStatusFile.length() > 0) {
+          if ((modelSwitchStatusFile.exists() && modelSwitchStatusFile.length() > 0) || waitCount == 10) {
             break;
           }
+          waitCount++;
           Thread.sleep(200);
         }
       } catch (InterruptedException e) {
         LOGGER.error(new Gson().toJson(e));
         Thread.currentThread().interrupt();
       }
-      final List<String> modelSwitchLineList = txtUtil.read_lineList(modelSwitchStatusPath, Charsets.UTF8);
-      String faceDBPath = "";
-      if (attributeCheck.listNotEmpty(modelSwitchLineList)) {
-        for (String modelSwitchLine : modelSwitchLineList) {
-          String modelSwitchArray[] = modelSwitchLine.split("\\t");
-          if (modelSwitchArray.length > 1) {
-            if (modelSwitchArray[1].equals("Fail")) {
-              faceDBPath = modelSwitchArray[3].replace("Reload FaceDB file ", "");
-              modelSwitchResult.setFaceDB(faceDBPath.substring(faceDBPath.lastIndexOf("\\") + 1, faceDBPath.length()));
-              flag = false;
-            } else if (modelSwitchArray[1].equals("Pass") && modelSwitchArray.length == 4) {
-              faceDBPath = modelSwitchArray[3].replace("Reload FaceDB file ", "");
-              modelSwitchResult.setFaceDB(faceDBPath.substring(faceDBPath.lastIndexOf("\\") + 1, faceDBPath.length()));
-            } else if (modelSwitchArray[1].equals("Report")) {
-              if (modelSwitchArray[3].startsWith("Overall reload:")) {
-                modelSwitchResult.setFaceReload(modelSwitchArray[3]);
-              } else {
-                modelSwitchResult.setReloadTime(modelSwitchArray[3]);
+
+      if (modelSwitchStatusFile.exists() && modelSwitchStatusFile.length() > 0) {
+        modelSwitchResult = new ModelSwitchResult();
+        final List<String> modelSwitchLineList = txtUtil.read_lineList(modelSwitchStatusPath, Charsets.UTF8);
+        String faceDBPath = "";
+        if (attributeCheck.listNotEmpty(modelSwitchLineList)) {
+          for (String modelSwitchLine : modelSwitchLineList) {
+            String modelSwitchArray[] = modelSwitchLine.split("\\t");
+            if (modelSwitchArray.length > 1) {
+              if (modelSwitchArray[1].equals("Fail")) {
+                faceDBPath = modelSwitchArray[3].replace("Reload FaceDB file ", "");
+                modelSwitchResult.setFaceDB(faceDBPath.substring(faceDBPath.lastIndexOf("\\") + 1, faceDBPath.length()));
+                flag = false;
+              } else if (modelSwitchArray[1].equals("Pass") && modelSwitchArray.length == 4) {
+                faceDBPath = modelSwitchArray[3].replace("Reload FaceDB file ", "");
+                modelSwitchResult.setFaceDB(faceDBPath.substring(faceDBPath.lastIndexOf("\\") + 1, faceDBPath.length()));
+              } else if (modelSwitchArray[1].equals("Report")) {
+                if (modelSwitchArray[3].startsWith("Overall reload:")) {
+                  modelSwitchResult.setFaceReload(modelSwitchArray[3]);
+                } else {
+                  modelSwitchResult.setReloadTime(modelSwitchArray[3]);
+                }
               }
             }
           }
+        } else {
+          flag = false;
         }
-      } else {
-        flag = false;
+        modelSwitchResult.setSuccess(flag);
       }
-      modelSwitchResult.setSuccess(flag);
     }
     return modelSwitchResult;
   }
@@ -783,17 +793,19 @@ public class CheckStatusUtil {
     // init func
     final AttributeCheck attributeCheck = new AttributeCheck();
     // init variable
-    final ModelInsertResult modelInsertResult = new ModelInsertResult();
+    ModelInsertResult modelInsertResult = null;
     if (attributeCheck.stringsNotNull(modelInsertStatusPath)) {
       // init variable
       final File modelInsertStatusFile = new File(modelInsertStatusPath);
       final TxtUtil txtUtil = new TxtUtil();
-      // init variable
+      int waitCount = 0;
+
       try {
         while (true) {
-          if ((modelInsertStatusFile.exists() && modelInsertStatusFile.length() > 0)) {
+          if ((modelInsertStatusFile.exists() && modelInsertStatusFile.length() > 0) || waitCount == 10) {
             break;
           }
+          waitCount++;
           Thread.sleep(waitTimeMs / 5);
         }
       } catch (InterruptedException e) {
@@ -801,58 +813,62 @@ public class CheckStatusUtil {
         Thread.currentThread().interrupt();
       }
 
-      final List<String> modelInsertLineList = txtUtil.read_lineList(modelInsertStatusPath, Charsets.UTF8);
-      if (attributeCheck.listNotEmpty(modelInsertLineList)) {
-        // init variable
-        final List<ModelInsertInfo> modelInsertInfoList = new ArrayList<>();
-        ModelInsertInfo modelInsertInfo;
-        String faceAndPeople[];
-        String currentfaceAndPeople[];
-        int face;
-        int people;
-        int currentDBFaceCout;
-        int currentDBPeopleCount;
-
-        for (String modelInsertLine : modelInsertLineList) {
+      if (modelInsertStatusFile.exists() && modelInsertStatusFile.length() > 0) {
+        modelInsertResult = new ModelInsertResult();
+        final List<String> modelInsertLineList = txtUtil.read_lineList(modelInsertStatusPath, Charsets.UTF8);
+        if (attributeCheck.listNotEmpty(modelInsertLineList)) {
           // init variable
-          modelInsertInfo = new ModelInsertInfo();
-          final String modelInsertArray[] = modelInsertLine.split("\\t");
+          final List<ModelInsertInfo> modelInsertInfoList = new ArrayList<>();
+          ModelInsertInfo modelInsertInfo;
+          String faceAndPeople[];
+          String currentfaceAndPeople[];
+          int face;
+          int people;
+          int currentDBFaceCout;
+          int currentDBPeopleCount;
 
-          switch (modelInsertArray.length) {
-            case 3:
-              if (modelInsertArray[1].equals("Pass")) {
+          for (String modelInsertLine : modelInsertLineList) {
+            // init variable
+            modelInsertInfo = new ModelInsertInfo();
+            final String modelInsertArray[] = modelInsertLine.split("\\t");
+
+            switch (modelInsertArray.length) {
+              case 3:
+                if (modelInsertArray[1].equals("Pass")) {
+                  modelInsertInfoList.add(modelInsertInfo);
+                  modelInsertResult.setSuccess(true);
+                }
+                break;
+              case 5:
+                faceAndPeople = modelInsertArray[3].replaceAll("Overall insert:", "").replace("faces/people", "").trim().split("/");
+                currentfaceAndPeople =
+                    modelInsertArray[4].replaceAll("CurrentDBFaceCout=", "").replace("CurrentDBPeopleCount=", "").trim().split(" ");
+                face = Integer.valueOf(faceAndPeople[0]);
+                people = Integer.valueOf(faceAndPeople[1]);
+                currentDBFaceCout = Integer.valueOf(currentfaceAndPeople[0]);
+                currentDBPeopleCount = Integer.valueOf(currentfaceAndPeople[1]);
+
+                modelInsertInfo.setInsertFacesCount(face);
+                modelInsertInfo.setInsertPeopleCount(people);
+                modelInsertInfo.setCurrDBFaceCout(currentDBFaceCout);
+                modelInsertInfo.setCurrDBPeopleCount(currentDBPeopleCount);
                 modelInsertInfoList.add(modelInsertInfo);
                 modelInsertResult.setSuccess(true);
-              }
-              break;
-            case 5:
-              faceAndPeople = modelInsertArray[3].replaceAll("Overall insert:", "").replace("faces/people", "").trim().split("/");
-              currentfaceAndPeople = modelInsertArray[4].replaceAll("CurrentDBFaceCout=", "").replace("CurrentDBPeopleCount=", "").trim().split(" ");
-              face = Integer.valueOf(faceAndPeople[0]);
-              people = Integer.valueOf(faceAndPeople[1]);
-              currentDBFaceCout = Integer.valueOf(currentfaceAndPeople[0]);
-              currentDBPeopleCount = Integer.valueOf(currentfaceAndPeople[1]);
+                break;
+              case 4:
+                if (modelInsertArray[3].startsWith("Overall insert time: ")) {
+                  modelInsertInfo.setInsertProcessTime(modelInsertArray[3]
+                      .substring(modelInsertArray[3].indexOf("Overall insert time: "), modelInsertArray[3].indexOf(" sec. ")).trim());
+                }
+                modelInsertInfoList.add(modelInsertInfo);
+                break;
+              default:
+                break;
+            }
 
-              modelInsertInfo.setInsertFacesCount(face);
-              modelInsertInfo.setInsertPeopleCount(people);
-              modelInsertInfo.setCurrDBFaceCout(currentDBFaceCout);
-              modelInsertInfo.setCurrDBPeopleCount(currentDBPeopleCount);
-              modelInsertInfoList.add(modelInsertInfo);
-              modelInsertResult.setSuccess(true);
-              break;
-            case 4:
-              if (modelInsertArray[3].startsWith("Overall insert time: ")) {
-                modelInsertInfo.setInsertProcessTime(modelInsertArray[3]
-                    .substring(modelInsertArray[3].indexOf("Overall insert time: "), modelInsertArray[3].indexOf(" sec. ")).trim());
-              }
-              modelInsertInfoList.add(modelInsertInfo);
-              break;
-            default:
-              break;
           }
-
+          modelInsertResult.setModelInsertInfoList(modelInsertInfoList);
         }
-        modelInsertResult.setModelInsertInfoList(modelInsertInfoList);
       }
     }
     return modelInsertResult;
