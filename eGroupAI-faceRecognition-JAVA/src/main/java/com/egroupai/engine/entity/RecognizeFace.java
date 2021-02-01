@@ -197,11 +197,10 @@ public class RecognizeFace {
         inputSource = " --photo-list " + photoListPath;
       }
       cli = new StringBuilder("cd " + enginePath + " && " + disk + ": && RecognizeFace " + "--threshold " + threshold + " "
-          + (isHideMainWindow == false ? " --show-main-window " : "") + (isHideThreadWindow == false ? " --show-thread-window " : "")
+          + (!isHideMainWindow ? " --show-main-window " : "") + (isHideThreadWindow == false ? " --show-thread-window " : "")
           + (attributeCheck.stringsNotNull(resolution) ? " --resolution " + resolution + " " : "--resolution 720p ")
-          + (isOutputFrame == false || !attributeCheck.stringsNotNull(outputFramePath) ? "" : " --output-frame \"" + outputFramePath + "\" ")
-          + (isOutputFace == false || !attributeCheck.stringsNotNull(outputFacePath) ? "" : " --output-face \"" + outputFacePath + "\" ")
-          + (!attributeCheck.stringsNotNull(outputFacePath) ? "" : "--output-face \"" + outputFacePath + "\" ") + inputSource + " "
+          + (!isOutputFrame || !attributeCheck.stringsNotNull(outputFramePath) ? "" : " --output-frame \"" + outputFramePath + "\" ")
+          + (!isOutputFace || !attributeCheck.stringsNotNull(outputFacePath) ? "" : " --output-face \"" + outputFacePath + "\" ") + inputSource + " "
           + (minimumFaceSize != null ? "--minimum-face-size " + minimumFaceSize + " " : "")
           + (attributeCheck.stringsNotNull(mainResolution) ? "--output-window-resolution " + mainResolution + " " : "")
           + (threads != null ? "--threads " + threads + " " : "--threads 1 ")
