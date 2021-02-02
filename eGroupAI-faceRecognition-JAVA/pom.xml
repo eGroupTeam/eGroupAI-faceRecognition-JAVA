@@ -33,7 +33,7 @@
 		<io.swagger.core.v3.version>2.0.8</io.swagger.core.v3.version>
 		<net.lingala.zip4j.version>1.3.1</net.lingala.zip4j.version>
 		<org.apache.maven.plugins.version>3.2</org.apache.maven.plugins.version>
-		<junit.version>4.12</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<javax.mail.version>1.4.7</javax.mail.version>
 		<validation-api.version>1.1.0.Final</validation-api.version>
 	</properties>
