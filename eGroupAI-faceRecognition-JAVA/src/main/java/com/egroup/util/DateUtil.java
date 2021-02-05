@@ -1,485 +1,710 @@
 package com.egroup.util;
 
-import java.sql.Timestamp;
-import java.time.Duration;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.chrono.MinguoDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import com.egroup.util.enums.DateEnum.Calendar_;
+import com.egroup.util.enums.DateEnum.Category;
+import com.egroup.util.enums.DateEnum.Compare;
+import com.egroup.util.enums.DateEnum.Duration_;
+import com.egroup.util.enums.DateEnum.Formate;
+import com.egroup.util.enums.DateEnum.Formula;
+import com.egroup.util.enums.DateEnum.Zone;
 
 public class DateUtil {
-	public enum Formate {
-		YMDTHMSZ_("yyyy-MM-dd'T'HH:mm:ssZ"),
-		YMDTHMS_("yyyy-MM-dd'T'HH:mm:ss"),
-		YMDHMS_("yyyy-MM-ddHH:mm:ss"),
-		YMD_SPACE_HMS_("yyyy-MM-dd HH:mm:ss"),
-		YMD_SPACE_H_("yyyy-MM-dd HH"),
-		YMD_SPACE_HMSS_("yyyy-MM-dd HH:mm:ss.S"),
-		YMD_("yyyy-MM-dd"),
-		YMD("yyyy/MM/dd"),
-		MINGUO_TEXT("yyy年MM月dd日"),
-		MINGUO_DIGITAL("yyy-MM-dd");
-
-		private String value;
-
-		Formate(String value) {
-			this.value = value;
-		}
-
-		public String getValue() {
-			return value;
-		}
-	}
-	
-	public enum Zone {
-		TAIPEI("Asia/Taipei");
-		
-		private String value;
-		
-		Zone(String value) {
-			this.value = value;
-		}
-
-		public String getValue() {
-			return value;
-		}
-	}
-
-	public enum Formula {
-		PLUS("Plus"), MINUS("Minus");
-
-		private String value;
-
-		Formula(String value) {
-			this.value = value;
-		}
-
-		public String getValue() {
-			return value;
-		}
-	}
-
-	public enum Category {
-		SECONDS("Seconds"),HOURS("Hours"),DAYS("Days"), MONTHS("Months"), YEARS("Years");
-		private String value;
-
-		Category(String value) {
-			this.value = value;
-		}
-
-		public String getValue() {
-			return value;
-		}
-	}
-	
-	public enum Compare {
-		BEFORE("Before"), AFTER("After"), EQUALS("Equals");
-		private String value;
-
-		Compare(String value) {
-			this.value = value;
-		}
-
-		public String getValue() {
-			return value;
-		}
-	}
-	
-	public enum Duration_{
-		NANOS("Nanos") , MILLIS("Millis"), MINUTES("Minutes"), HOURS("Hours"), DAYS("Days");
-		private String value;
-		
-		Duration_(String value) {
-			this.value = value;
-		}
-
-		public String getValue() {
-			return value;
-		}
-	}
-	
-	public enum Calendar_{
-		ANNO_DOMINI("AnnoDomini") ,MINGUO("Minguo");
-		private String value;
-		
-		Calendar_(String value) {
-			this.value = value;
-		}
-
-		public String getValue() {
-			return value;
-		}
-	}
-	
-	// init func
-	final AttributeCheck attributeCheck = new AttributeCheck();
-	
-	public void main(String args[]){
-//		 GetDate 2018-07-09 13:11:15.0
-//		System.out.println("getDateString="+getDateString(Formate.YMDHMSSSS_));
-//		// TransferFomate
-//		System.out.println("getDateStringTransfer="+getDateStringTransfer_localDateTime(Formate.YMDHMSSSS_,Formate.YMDHMS_, getDateString(Formate.YMDHMSSSS_)));
-////		// Get Date 
-//		Long digital = new Long(5);
-//		getDateString_calculate(Formate.YMDTHMS_,Category.DAYS,Formula.PLUS,digital);
-////		// Compare Date
-//		getDateString_compare(Formate.YMDTHMS_,Compare.AFTER,"2018-08-28T12:16:01","2018-08-25T12:16:01");
-//		
-//		String date = getDateStringTransfer_zoneTime_fromTimestampAddZone(Formate.YMD_SPACE_HMSS_, Formate.YMDTHMSZ_,Zone.TAIPEI, "2018-07-09 13:11:15.0");
-//		System.out.println("date="+date);
-		
-		// Duration Test
-//		System.out.println(getDuration("2019-03-11 13:00:39","2019-03-11 17:25:39",Formate.YMD_SPACE_HMS_,Duration_.MINUTES));
-
-		;
-		
-//		System.out.println("minguoDate1="+getDateStringTransfer_localDateTime(Formate.YMD_SPACE_HMS_, Formate.MINGUO_TEXT, "2019-03-11 17:25:39", Calendar_.MINGUO));
-//		System.out.println("minguoDate2="+getDateStringTransfer_localDateTime(Formate.YMD_SPACE_HMS_, Formate.MINGUO_DIGITAL, "2019-03-11 17:25:39", Calendar_.MINGUO));
-	}
-	
-	private String MinguoGenerate(Calendar_ calendar_,Formate formate ,LocalDateTime localDateTime){
-		final MinguoDate minguoDate = MinguoDate.from(localDateTime);
-		switch (formate.getValue()) {
-		case "yyy年MM月dd日":
-			return minguoDate.toString().replace("Minguo ROC", "中華民國");
-		case "yyy-MM-dd":
-			return minguoDate.toString().replace("Minguo ROC", "中華民國").replace("-", "年").replace("-", "月")+"日";
-		default:
-			return null;
-		}
-	}
-	
-	public String getDateString(Formate formate,Calendar_ calendar_) {
-		if(calendar_.getValue().equals("AnnoDomini")){
-			final ZoneId zoneId = ZoneId.of("Asia/Taipei");
-			final ZonedDateTime zonedDateTime = ZonedDateTime.now(zoneId);
-			final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formate.getValue());
-			return zonedDateTime.format(formatter);
-		}else{
-			final LocalDateTime localDateTime = LocalDateTime.now();	
-			return MinguoGenerate(calendar_ , formate, localDateTime);
-		}		
-	}
-	
-	public String getDateStringTransfer_zoneTime(Formate formateInput ,Formate formateOutput ,String dateString ,Calendar_ calendar_) {
-		if(attributeCheck.stringsNotNull(dateString)){
-			final DateTimeFormatter formatterInput = DateTimeFormatter.ofPattern(formateInput.getValue());
-			if(calendar_.getValue().equals("AnnoDomini")){
-				final DateTimeFormatter formatterOuptut = DateTimeFormatter.ofPattern(formateOutput.getValue());
-				final ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateString, formatterInput);
-				return zonedDateTime.format(formatterOuptut);
-			}else{
-				final LocalDateTime localDateTime = LocalDateTime.parse(dateString,formatterInput);
-				return MinguoGenerate(calendar_ , formateOutput, localDateTime);
-			}
-		}
-		return null;
-	}
-	
-	public String getDateStringTransfer_zoneTime_fromTimestamp(Formate formateInput,Formate formateOutput,Timestamp timestamp) {
-		if(timestamp!=null){
-			final DateTimeFormatter formatterInput = DateTimeFormatter.ofPattern(formateInput.getValue());
-			final DateTimeFormatter formatterOuptut = DateTimeFormatter.ofPattern(formateOutput.getValue());
-			final ZonedDateTime zonedDateTime = ZonedDateTime.parse(timestamp.toString(), formatterInput);
-			return zonedDateTime.format(formatterOuptut);
-		}
-		return null;
-	}
-	
-	public String getDateStringTransfer_zoneTime_fromTimestampAddZone(Formate formateInput,Formate formateOutput,Zone zone,Timestamp timestamp) {
-		if(timestamp!=null){
-			final ZoneId zoneId = ZoneId.of(zone.getValue());			
-			final DateTimeFormatter formatterInput = DateTimeFormatter.ofPattern(formateInput.getValue());
-			final DateTimeFormatter formatterOuptut = DateTimeFormatter.ofPattern(formateOutput.getValue());
-			final LocalDateTime localDateTime = LocalDateTime.parse(timestamp.toString(), formatterInput);			
-			final ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);
-			return zonedDateTime.format(formatterOuptut);
-		}
-		return null;
-	}
-	
-	public String getDateStringTransfer_zoneTime_fromTimestampAddZone(Formate formateInput,Formate formateOutput,Zone zone,String timestampString) {
-		if(timestampString!=null){
-			final ZoneId zoneId = ZoneId.of(zone.getValue());			
-			final DateTimeFormatter formatterInput = DateTimeFormatter.ofPattern(formateInput.getValue());
-			final DateTimeFormatter formatterOuptut = DateTimeFormatter.ofPattern(formateOutput.getValue());
-			final LocalDateTime localDateTime = LocalDateTime.parse(timestampString, formatterInput);			
-			final ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);
-			return zonedDateTime.format(formatterOuptut);
-		}
-		return null;
-	}
-	
-	public String getDateStringTransfer_localDateTime(Formate formateInput,Formate formateOutput,String dateString ,Calendar_ calendar_) {
-		if(attributeCheck.stringsNotNull(dateString)){
-			final DateTimeFormatter formatterInput = DateTimeFormatter.ofPattern(formateInput.getValue());
-			if(calendar_.getValue().equals("AnnoDomini")){
-				// System.out.println("dateString = "+dateString+",length="+dateString.length());
-				if(dateString.length()<19){
-					int zero_length = 19-dateString.length();
-					for(int i=1;i<zero_length+1;i++){						
-						if(i%2==1){
-							dateString = dateString+"0";
-						}else{
-							dateString = dateString+":0";
-						}
-						
-					}
-				}
-				// System.out.println("dateString = "+dateString+",length="+dateString.length());
-				final DateTimeFormatter formatterOuptut = DateTimeFormatter.ofPattern(formateOutput.getValue());
-				final LocalDateTime localDateTime = LocalDateTime.parse(dateString, formatterInput);
-				return localDateTime.format(formatterOuptut);
-			}else{
-				final LocalDateTime localDateTime = LocalDateTime.parse(dateString,formatterInput);
-				return MinguoGenerate(calendar_ , formateOutput,localDateTime);
-			}
-		}
-		return null;
-	}
-	
-	public String getDateStringTransfer_localDateTime_fromTimestamp(Formate formateInput,Formate formateOutput,Timestamp timestamp) {
-		if(timestamp!=null){
-			final DateTimeFormatter formatterInput = DateTimeFormatter.ofPattern(formateInput.getValue());
-			final DateTimeFormatter formatterOuptut = DateTimeFormatter.ofPattern(formateOutput.getValue());
-			final LocalDateTime localDateTime = LocalDateTime.parse(timestamp.toString(), formatterInput);
-			return localDateTime.format(formatterOuptut);
-		}
-		return null;
-	}
-	
-	public  boolean getDateString_compare2Date(Formate formate,String dateString1,Compare compare,String dateString2){
-		boolean flag = false;
-		if(attributeCheck.stringsNotNull(dateString1,dateString2)){
-			final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formate.getValue());
-			final LocalDateTime localDateTime1 = LocalDateTime.parse(dateString1, formatter);
-			final LocalDateTime localDateTime2 = LocalDateTime.parse(dateString2, formatter);	
-			switch (compare.getValue()) {
-			case "Before":
-				flag = localDateTime1.isBefore(localDateTime2);
-				break;
-			case "After":
-				flag = localDateTime1.isAfter(localDateTime2);
-				break;
-			case "Equals":
-				flag = localDateTime1.equals(localDateTime2);
-				break;
-			default:
-				break;
-			}
-		}
-		return flag;
-	}
-	
-	public boolean getDateString_nowCompareWith(Formate formate,Compare compare,String dateString){
-		boolean flag = false;
-		if(attributeCheck.stringsNotNull(dateString)){
-			final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formate.getValue());
-			final LocalDateTime localDateTime1 = LocalDateTime.now();
-			final LocalDateTime localDateTime2 = LocalDateTime.parse(dateString, formatter);
-			if(compare.getValue().equals("before")){
-				flag = localDateTime1.isBefore(localDateTime2);
-			}else{
-				flag = localDateTime1.isAfter(localDateTime2);
-			}
-		}
-		return flag;
-	}
-
-	
-	public String getDateString_calculate(String startDateString,Formate formate,Category category,Formula formula,Long digital){
-		String dateString = "";
-		if(attributeCheck.stringsNotNull(startDateString)){
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formate.getValue());
-			ZonedDateTime zonedDateTime_now = ZonedDateTime.parse(startDateString, formatter);
-//			System.out.println("zonedDateTime_now="+zonedDateTime_now.format(formatter));
-			
-			switch (category.getValue()) {
-			case "Seconds":
-				dateString = caculateSeconds(zonedDateTime_now, formula, formate, digital);
-				break;
-			case "Hours":
-				dateString = caculateHours(zonedDateTime_now, formula, formate, digital);
-				break;
-			case "Days":
-				dateString = caculateDays(zonedDateTime_now, formula, formate, digital);
-				break;
-			case "Months":
-				dateString = caculateMonths(zonedDateTime_now, formula, formate, digital);	
-				break;
-			case "Years":
-				dateString = caculateYears(zonedDateTime_now, formula, formate, digital);	
-				break;
-
-			default:
-				break;
-			}
-//			System.out.println("dateString="+dateString);
-		}
-		return dateString;
-	}
-
-	public  String getDateString_calculate(Formate formate,Category category,Formula formula,Long digital){
-		final ZoneId zoneId = ZoneId.of("Asia/Taipei");
-		final ZonedDateTime zonedDateTime_now = ZonedDateTime.now(zoneId);
-		final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formate.getValue());
-//		System.out.println("zonedDateTime_now="+zonedDateTime_now.format(formatter));
-		
-		String dateString = "";
-		switch (category.getValue()) {
-		case "Seconds":
-			dateString = caculateSeconds(zonedDateTime_now, formula, formate, digital);
-			break;
-		case "Hours":
-			dateString = caculateHours(zonedDateTime_now, formula, formate, digital);
-			break;
-		case "Days":
-			dateString = caculateDays(zonedDateTime_now, formula, formate, digital);
-			break;
-		case "Months":
-			dateString = caculateMonths(zonedDateTime_now, formula, formate, digital);	
-			break;
-		case "Years":
-			dateString = caculateYears(zonedDateTime_now, formula, formate, digital);	
-			break;
-
-		default:
-			break;
-		}
-//		System.out.println("dateString="+dateString);
-		return dateString;
-	}
-	
-	private String caculateSeconds(ZonedDateTime zonedDateTime_now,Formula formula,Formate formate,Long digital) {
-		if(zonedDateTime_now!=null){
-			ZonedDateTime zonedDateTime_result =null;
-			switch (formula.getValue()) {
-			case "Plus":
-				zonedDateTime_result = zonedDateTime_now.plusSeconds(digital);		
-				break;
-			case "Minus":
-				zonedDateTime_result = zonedDateTime_now.minusSeconds(digital);				
-				break;
-			default:
-				break;
-			}
-			final  DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formate.getValue());
-			return zonedDateTime_result.format(formatter);
-		}
-		return null;
-	}
-	
-	private String caculateHours(ZonedDateTime zonedDateTime_now,Formula formula,Formate formate,Long digital) {
-		if(zonedDateTime_now!=null){
-			ZonedDateTime zonedDateTime_result =null;
-			switch (formula.getValue()) {
-			case "Plus":
-				zonedDateTime_result = zonedDateTime_now.plusHours(digital);		
-				break;
-			case "Minus":
-				zonedDateTime_result = zonedDateTime_now.minusHours(digital);				
-				break;
-			default:
-				break;
-			}
-			final  DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formate.getValue());
-			return zonedDateTime_result.format(formatter);
-		}
-		return null;
-	}
-
-	private String caculateDays(ZonedDateTime zonedDateTime_now,Formula formula,Formate formate,Long digital) {
-		if(zonedDateTime_now!=null){
-			ZonedDateTime zonedDateTime_result =null;
-			switch (formula.getValue()) {
-			case "Plus":
-				zonedDateTime_result = zonedDateTime_now.plusDays(digital);		
-				break;
-			case "Minus":
-				zonedDateTime_result = zonedDateTime_now.minusDays(digital);				
-				break;
-			default:
-				break;
-			}
-			final  DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formate.getValue());
-			return zonedDateTime_result.format(formatter);
-		}
-		return null;
-	}
-	
-	private  String caculateMonths(ZonedDateTime zonedDateTime_now,Formula formula,Formate formate,Long digital) {
-		if(zonedDateTime_now!=null){
-			ZonedDateTime zonedDateTime_result =null;
-			switch (formula.getValue()) {
-			case "Plus":
-				zonedDateTime_result = zonedDateTime_now.plusMonths(digital);		
-				break;
-			case "Minus":
-				zonedDateTime_result = zonedDateTime_now.minusMonths(digital);				
-				break;
-			default:
-				break;
-			}
-			final  DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formate.getValue());
-			return zonedDateTime_result.format(formatter);
-		}
-		return null;
-	}
-	
-	private  String caculateYears(ZonedDateTime zonedDateTime_now,Formula formula,Formate formate,Long digital) {
-		if(zonedDateTime_now!=null){
-			ZonedDateTime zonedDateTime_result =null;
-			switch (formula.getValue()) {
-			case "Plus":
-				zonedDateTime_result = zonedDateTime_now.plusYears(digital);		
-				break;
-			case "Minus":
-				zonedDateTime_result = zonedDateTime_now.minusYears(digital);				
-				break;
-			default:
-				break;
-			}
-			final  DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formate.getValue());
-			return zonedDateTime_result.format(formatter);
-		}
-		return null;
-	}
-	
-	/**
-	 * 
-	 * @author daniel
-	 * Get the duration by time
-	 * @param startTimeString
-	 * @param endTimeString
-	 * @param formate
-	 * @param duration_
-	 * @return
-	 */
-	public Integer getDuration(String startTimeString,  String  endTimeString , Formate formate , Duration_ duration_){
-		if(attributeCheck.stringsNotNull(startTimeString,endTimeString)){
-			final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formate.getValue());
-			LocalDateTime localDateStartTime = LocalDateTime.parse(startTimeString, formatter);	
-			LocalDateTime localDateEndTime = LocalDateTime.parse(endTimeString, formatter);		
-			switch (duration_.getValue()) {
-			case "Nanos":
-				return (int) java.time.Duration.between(localDateStartTime, localDateEndTime).toNanos();
-			case "Millis":
-				return (int) java.time.Duration.between(localDateStartTime, localDateEndTime).toMillis();
-			case "Minutes":
-				return (int) java.time.Duration.between(localDateStartTime, localDateEndTime).toMinutes();
-			case "Hours":
-				return (int) java.time.Duration.between(localDateStartTime, localDateEndTime).toHours();
-			case "Days":
-				return (int) java.time.Duration.between(localDateStartTime, localDateEndTime).toDays();	
-			default:
-				return null;
-			}
-		}else{
-			return null;
-		}
-	}
 
 
-	
+  // init func
+  final static AttributeCheck attributeCheck = new AttributeCheck();
+
+  /**
+   * Get Taiwan noe date
+   * 
+   * @author eGroupAI
+   *
+   * @param calendar_
+   * @param formate
+   * @param localDate
+   * @return
+   */
+  public String getMinguo(Calendar_ calendar_, Formate formate, LocalDate localDate) {
+    String minguoDateString = null;
+    if (calendar_ != null && calendar_.getValue().equals(Calendar_.MINGUO.getValue()) && formate != null && localDate != null) {
+      final MinguoDate minguoDate = MinguoDate.from(localDate);
+      if (formate.getValue().equals(Formate.MINGUO_TEXT.getValue())) {
+        minguoDateString = minguoDate.toString().replace("Minguo ROC ", "").replace("-", "年").replace("-", "月") + "日";
+      } else if (formate.getValue().equals(Formate.MINGUO_YMD.getValue())) {
+        minguoDateString = minguoDate.toString().replace("Minguo ROC ", "").replace("-", "").replace("-", "");
+      } else {
+        minguoDateString = minguoDate.toString().replace("Minguo ROC ", "");
+      }
+    }
+    return minguoDateString;
+  }
+
+  /**
+   * Get date string
+   * 
+   * @author eGroupAI
+   *
+   * @param formate
+   * @param calendar_
+   * @param zone
+   * @return
+   */
+  public String get(Formate formate, Calendar_ calendar_, Zone zone) {
+    // Deprecate function name : getString
+    String dateString = null;
+    if (calendar_ != null && formate != null && zone != null) {
+      final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formate.getValue());
+      if (calendar_.getValue().equals(Calendar_.ANNO_DOMINI.getValue())) {
+
+        final ZoneId zoneId = ZoneId.of(zone.getValue());
+        final ZonedDateTime zonedDateTime = ZonedDateTime.now(zoneId);
+        dateString = zonedDateTime.format(formatter);
+      } else {
+        final LocalDate localDate = LocalDate.now();
+        dateString = getMinguo(calendar_, formate, localDate);
+      }
+    }
+    return dateString;
+  }
+
+  /**
+   * Get date string verify has zonetime text "Z" formate or not
+   * 
+   * @author eGroupAI
+   *
+   * @param formateInput
+   * @param formateOutput
+   * @param dateString
+   * @param calendar_
+   * 
+   * @return
+   */
+  public String convert(Formate formateInput, String dateString, Formate formateOutput, Calendar_ calendar_) {
+    // Deprecate function name : getDateStringTransfer_zoneTime and getDateStringTransfer_localDateTime_fromTimestamp
+    String newDateString = null;
+    if (formateInput != null && formateOutput != null && calendar_ != null && attributeCheck.stringsNotNull(dateString)) {
+      // Set DateTimeFormatter
+      final DateTimeFormatter formatterInput = DateTimeFormatter.ofPattern(formateInput.getValue());
+      final DateTimeFormatter formatterOuptut = DateTimeFormatter.ofPattern(formateOutput.getValue());
+
+      if (isZonedDateTime(calendar_, formateInput)) {
+        final ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateString, formatterInput);
+        newDateString = zonedDateTime.format(formatterOuptut);
+      } else if (isMinguo(calendar_, formateInput)) {
+        final LocalDate localDate = LocalDate.parse(dateString, formatterInput);
+        newDateString = getMinguo(calendar_, formateOutput, localDate);
+      } else {
+        final LocalDateTime localDateTime = LocalDateTime.parse(dateString, formatterInput);
+        newDateString = localDateTime.format(formatterOuptut);
+      }
+    }
+    return newDateString;
+  }
+
+  /**
+   * Formate the date time endwith .0 , e.g the datetime string the mysql datetime type
+   * 
+   * @author eGroupAI
+   *
+   * @param dateString
+   * @return
+   */
+  public String formateSQLDateTime(String dateString) {
+    StringBuilder newDateStringBuilder;
+    if (attributeCheck.stringsNotNull(dateString) && dateString.length() < 19) {
+      dateString = dateString.substring(0, dateString.length() - 2);
+      newDateStringBuilder = new StringBuilder();
+      int length = 19 - dateString.length();
+      for (int i = 1; i < length + 1; i++) {
+        if (i % 2 == 1) {
+          newDateStringBuilder.append("0");
+        } else {
+          newDateStringBuilder.append(":0");
+        }
+      }
+      dateString = newDateStringBuilder.toString();
+    } else {
+      dateString = null;
+    }
+    return dateString;
+  }
+
+  /**
+   * Get date string add zone
+   * 
+   * @author eGroupAI
+   *
+   * @param formateInput
+   * @param formateOutput
+   * @param zone
+   * @param timestamp
+   * @return
+   */
+  public String getAddZone(Formate formateInput, String dateString, Formate formateOutput, Zone zone) {
+    // Deprecate function name : getDateStringTransfer_zoneTime_fromTimestampAddZone
+    String newdateString = null;
+    if (formateInput != null && formateOutput != null && zone != null && attributeCheck.stringsNotNull(dateString)) {
+      final DateTimeFormatter formatterOuptut = DateTimeFormatter.ofPattern(formateOutput.getValue());
+
+      final ZoneId zoneId = ZoneId.of(zone.getValue());
+      final DateTimeFormatter formatterInput = DateTimeFormatter.ofPattern(formateInput.getValue());
+      final LocalDateTime localDateTime = LocalDateTime.parse(dateString, formatterInput);
+      ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);
+      newdateString = zonedDateTime.format(formatterOuptut);
+    }
+    return newdateString;
+  }
+
+  /**
+   * Convert date time from A zone to B zone
+   * 
+   * @author eGroupAI
+   *
+   * @param formateInput
+   * @param formateOutput
+   * @param zone
+   * @param timestamp
+   * @return
+   */
+  public String convertZone(Formate formateInput, String dateString, Formate formateOutput, Calendar_ calendar_, Zone zone) {
+    // Deprecate function name : getDateString_Transfer_zoneTime_fromTimestampUTCtoTimeZone
+    String newDateString = null;
+    if (formateInput != null && formateOutput != null && zone != null && calendar_ != null && attributeCheck.stringsNotNull(dateString)
+        && isZonedDateTime(calendar_, formateInput)) {
+      final DateTimeFormatter formatterOuptut = DateTimeFormatter.ofPattern(formateOutput.getValue());
+      final ZoneId zoneId = ZoneId.of(zone.getValue());
+
+      ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateString);
+      ZonedDateTime finalZonedDateTime = zonedDateTime.withZoneSameInstant(zoneId);
+      newDateString = finalZonedDateTime.format(formatterOuptut);
+    }
+    return newDateString;
+  }
+
+  /**
+   * Compare two date
+   * 
+   * @author eGroupAI
+   *
+   * @param formate
+   * @param dateString1
+   * @param compare
+   * @param dateString2
+   * @return
+   */
+  public boolean compare2Date(Formate formate, String dateString1, Compare compare, String dateString2) {
+    // Deprecate function name : getDateString_compare2Date
+    boolean flag = false;
+    if (formate != null && compare != null && attributeCheck.stringsNotNull(dateString1, dateString2)) {
+      final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formate.getValue());
+      final LocalDateTime localDateTime1 = LocalDateTime.parse(dateString1, formatter);
+      final LocalDateTime localDateTime2 = LocalDateTime.parse(dateString2, formatter);
+      switch (compare.getValue()) {
+        case "Before":
+          flag = localDateTime1.isBefore(localDateTime2);
+          break;
+        case "After":
+          flag = localDateTime1.isAfter(localDateTime2);
+          break;
+        case "Equals":
+          flag = localDateTime1.equals(localDateTime2);
+          break;
+        default:
+          break;
+      }
+    }
+    return flag;
+  }
+
+  /**
+   * Compare now with date
+   * 
+   * @author eGroupAI
+   *
+   * @param formate
+   * @param dateString
+   * @param compare
+   * @param zone
+   * @return
+   */
+  public boolean nowCompareWith(Formate formate, String dateString, Compare compare, Zone zone) {
+    boolean flag = false;
+    if (formate != null && compare != null && attributeCheck.stringsNotNull(dateString)) {
+      final ZoneId zoneId = ZoneId.of(zone.getValue());
+      final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formate.getValue());
+      final LocalDateTime localDateTime1 = LocalDateTime.now(zoneId);
+      final LocalDateTime localDateTime2 = LocalDateTime.parse(dateString, formatter);
+      switch (compare.getValue()) {
+        case "Before":
+          flag = localDateTime1.isBefore(localDateTime2);
+          break;
+        case "After":
+          flag = localDateTime1.isAfter(localDateTime2);
+          break;
+        case "Equals":
+          flag = localDateTime1.equals(localDateTime2);
+          break;
+        default:
+          break;
+      }
+    }
+    return flag;
+  }
+
+  /**
+   * Calculate the date
+   * 
+   * @author eGroupAI
+   *
+   * @param startDateString
+   * @param formate
+   * @param category
+   * @param formula
+   * @param digital
+   * @param calendar_
+   * @param zone
+   * @return
+   */
+  public String calculate(String startDateString, Formate formate, Category category, Formula formula, Long digital, Calendar_ calendar_, Zone zone) {
+    String dateString = null;
+    if (formate != null && category != null && formula != null && digital != null && calendar_ != null
+        && attributeCheck.stringsNotNull(startDateString)) {
+      final ZoneId zoneId = ZoneId.of(zone.getValue());
+      final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formate.getValue());
+      final LocalDateTime localDateTime = LocalDateTime.parse(startDateString, formatter);
+      final ZonedDateTime zonedDateTime = ZonedDateTime.now(zoneId);
+      boolean isLocalDateTime = isLocalDateTime(calendar_, formate);
+
+      switch (category.getValue()) {
+        case "Seconds":
+          dateString = caculateSeconds(localDateTime, zonedDateTime, formatter, formula, digital, isLocalDateTime, zone);
+          break;
+        case "Minutes":
+          dateString = caculateMinutes(localDateTime, zonedDateTime, formatter, formula, digital, isLocalDateTime, zone);
+          break;
+        case "Hours":
+          dateString = caculateHours(localDateTime, zonedDateTime, formatter, formula, digital, isLocalDateTime, zone);
+          break;
+        case "Days":
+          dateString = caculateDays(localDateTime, zonedDateTime, formatter, formula, digital, isLocalDateTime, zone);
+          break;
+        case "Months":
+          dateString = caculateMonths(localDateTime, zonedDateTime, formatter, formula, digital, isLocalDateTime, zone);
+          break;
+        case "Years":
+          dateString = caculateYears(localDateTime, zonedDateTime, formatter, formula, digital, isLocalDateTime, zone);
+          break;
+
+        default:
+          break;
+      }
+
+      if (!calendar_.getValue().equals(Calendar_.ANNO_DOMINI.getValue())) {
+        LocalDate localDate = LocalDate.parse(dateString, formatter);
+        dateString = getMinguo(calendar_, formate, localDate);
+      }
+    }
+    return dateString;
+  }
+
+  /**
+   * Calculate the date from now
+   * 
+   * @author eGroupAI
+   *
+   * @param formate
+   * @param category
+   * @param formula
+   * @param digital
+   * @param calendar_
+   * @param zone
+   * @return
+   */
+  public String calculate(Formate formate, Category category, Formula formula, Long digital, Calendar_ calendar_, Zone zone) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formate.getValue());
+    final ZoneId zoneId = ZoneId.of(zone.getValue());
+    final LocalDateTime localDateTime = LocalDateTime.now(zoneId);
+    final ZonedDateTime zonedDateTime = ZonedDateTime.now(zoneId);
+    boolean isLocalDateTime = isLocalDateTime(calendar_, formate);
+    String dateString = "";
+
+    switch (category.getValue()) {
+      case "Seconds":
+        dateString = caculateSeconds(localDateTime, zonedDateTime, formatter, formula, digital, isLocalDateTime, zone);
+        break;
+      case "Minutes":
+        dateString = caculateMinutes(localDateTime, zonedDateTime, formatter, formula, digital, isLocalDateTime, zone);
+        break;
+      case "Hours":
+        dateString = caculateHours(localDateTime, zonedDateTime, formatter, formula, digital, isLocalDateTime, zone);
+        break;
+      case "Days":
+        dateString = caculateDays(localDateTime, zonedDateTime, formatter, formula, digital, isLocalDateTime, zone);
+        break;
+      case "Months":
+        dateString = caculateMonths(localDateTime, zonedDateTime, formatter, formula, digital, isLocalDateTime, zone);
+        break;
+      case "Years":
+        dateString = caculateYears(localDateTime, zonedDateTime, formatter, formula, digital, isLocalDateTime, zone);
+        break;
+
+      default:
+        break;
+    }
+
+    if (!calendar_.getValue().equals(Calendar_.ANNO_DOMINI.getValue())) {
+      formatter = DateTimeFormatter.ofPattern(Formate.YMD_.getValue());
+      LocalDate localDate = LocalDate.parse(dateString, formatter);
+      dateString = getMinguo(calendar_, formate, localDate);
+    }
+    return dateString;
+  }
+
+  /**
+   * Check whether the date string is zone date time
+   * 
+   * @author eGroupAI
+   *
+   * @param calendar_
+   * @param formateInput
+   * @return
+   */
+  private boolean isZonedDateTime(Calendar_ calendar_, Formate formateInput) {
+    boolean flag = false;
+    if (calendar_.getValue().equals(Calendar_.ANNO_DOMINI.getValue()) && (formateInput.getValue().equals(Formate.YMDTHMSZ_.getValue())
+        || formateInput.getValue().equals(Formate.YMDTHMSSSZ_.getValue()) || formateInput.getValue().equals(Formate.YMDTHMSZ.getValue()))) {
+      flag = true;
+    }
+    return flag;
+  }
+
+  /**
+   * Check whether the date string is minguo date time
+   * 
+   * @author eGroupAI
+   *
+   * @param calendar_
+   * @param formateInput
+   * @return
+   */
+  private boolean isMinguo(Calendar_ calendar_, Formate formateInput) {
+    boolean flag = false;
+    if (calendar_.getValue().equals(Calendar_.MINGUO.getValue()) && (formateInput.getValue().equals(Formate.MINGUO_DIGITAL.getValue())
+        || formateInput.getValue().equals(Formate.MINGUO_YMD.getValue()) || formateInput.getValue().equals(Formate.MINGUO_TEXT.getValue()))) {
+      flag = true;
+    }
+    return flag;
+  }
+
+  /**
+   * Check whether the date string is local date time
+   * 
+   * @author eGroupAI
+   *
+   * @param calendar_
+   * @param formateInput
+   * @return
+   */
+  private boolean isLocalDateTime(Calendar_ calendar_, Formate formateInput) {
+    boolean flag = false;
+    if (!isZonedDateTime(calendar_, formateInput) && !isMinguo(calendar_, formateInput)) {
+      flag = true;
+    }
+    return flag;
+  }
+
+  /**
+   * Calculate date time secondes
+   * 
+   * @author eGroupAI
+   *
+   * @param localDateTime
+   * @param zonedDateTime
+   * @param formula
+   * @param formate
+   * @param digital
+   * @param isLocalDateTime
+   * @param zone
+   * @return
+   */
+  private String caculateSeconds(LocalDateTime localDateTime, ZonedDateTime zonedDateTime, DateTimeFormatter formatter, Formula formula, Long digital,
+      boolean isLocalDateTime, Zone zone) {
+    String dateString = null;
+    if (localDateTime != null && formula != null && formatter != null && digital != null && zone != null) {
+      if (isLocalDateTime) {
+        dateString = formula.getValue().equals(Formula.PLUS.getValue()) ? localDateTime.plusSeconds(digital).format(formatter)
+            : localDateTime.minusSeconds(digital).format(formatter);
+      } else {
+        dateString = formula.getValue().equals(Formula.PLUS.getValue()) ? zonedDateTime.plusSeconds(digital).format(formatter)
+            : zonedDateTime.minusSeconds(digital).format(formatter);
+      }
+    }
+    return dateString;
+  }
+
+  /**
+   * Calculate date time minutes
+   * 
+   * @author eGroupAI
+   *
+   * @param localDateTime
+   * @param zonedDateTime
+   * @param formula
+   * @param formate
+   * @param digital
+   * @param isLocalDateTime
+   * @param zone
+   * @return
+   */
+  private String caculateMinutes(LocalDateTime localDateTime, ZonedDateTime zonedDateTime, DateTimeFormatter formatter, Formula formula, Long digital,
+      boolean isLocalDateTime, Zone zone) {
+    String dateString = null;
+    if (localDateTime != null && formula != null && formatter != null && digital != null && zone != null) {
+      if (isLocalDateTime) {
+        dateString = formula.getValue().equals(Formula.PLUS.getValue()) ? localDateTime.plusMinutes(digital).format(formatter)
+            : localDateTime.minusMinutes(digital).format(formatter);
+      } else {
+        dateString = formula.getValue().equals(Formula.PLUS.getValue()) ? zonedDateTime.plusMinutes(digital).format(formatter)
+            : zonedDateTime.minusMinutes(digital).format(formatter);
+      }
+    }
+    return dateString;
+  }
+
+  /**
+   * Calculate date time hours
+   * 
+   * @author eGroupAI
+   *
+   * @param localDateTime
+   * @param zonedDateTime
+   * @param formula
+   * @param formate
+   * @param digital
+   * @param isLocalDateTime
+   * @param zone
+   * @return
+   */
+  private String caculateHours(LocalDateTime localDateTime, ZonedDateTime zonedDateTime, DateTimeFormatter formatter, Formula formula, Long digital,
+      boolean isLocalDateTime, Zone zone) {
+    String dateString = null;
+    if (localDateTime != null && formula != null && formatter != null && digital != null && zone != null) {
+      if (isLocalDateTime) {
+        dateString = formula.getValue().equals(Formula.PLUS.getValue()) ? localDateTime.plusHours(digital).format(formatter)
+            : localDateTime.minusHours(digital).format(formatter);
+      } else {
+        dateString = formula.getValue().equals(Formula.PLUS.getValue()) ? zonedDateTime.plusHours(digital).format(formatter)
+            : zonedDateTime.minusHours(digital).format(formatter);
+      }
+    }
+    return dateString;
+  }
+
+  /**
+   * Calculate date time days
+   * 
+   * @author eGroupAI
+   *
+   * @param localDateTime
+   * @param zonedDateTime
+   * @param formula
+   * @param formate
+   * @param digital
+   * @param isLocalDateTime
+   * @param zone
+   * @return
+   */
+  private String caculateDays(LocalDateTime localDateTime, ZonedDateTime zonedDateTime, DateTimeFormatter formatter, Formula formula, Long digital,
+      boolean isLocalDateTime, Zone zone) {
+    String dateString = null;
+    if (localDateTime != null && formula != null && formatter != null && digital != null && zone != null) {
+      if (isLocalDateTime) {
+        dateString = formula.getValue().equals(Formula.PLUS.getValue()) ? localDateTime.plusDays(digital).format(formatter)
+            : localDateTime.minusDays(digital).format(formatter);
+      } else {
+        dateString = formula.getValue().equals(Formula.PLUS.getValue()) ? zonedDateTime.plusDays(digital).format(formatter)
+            : zonedDateTime.minusDays(digital).format(formatter);
+      }
+    }
+    return dateString;
+  }
+
+  /**
+   * Calculate date time month
+   * 
+   * @author eGroupAI
+   *
+   * @param localDateTime
+   * @param zonedDateTime
+   * @param formula
+   * @param formate
+   * @param digital
+   * @param isLocalDateTime
+   * @param zone
+   * @return
+   */
+  private String caculateMonths(LocalDateTime localDateTime, ZonedDateTime zonedDateTime, DateTimeFormatter formatter, Formula formula, Long digital,
+      boolean isLocalDateTime, Zone zone) {
+    String dateString = null;
+    if (localDateTime != null && formula != null && formatter != null && digital != null && zone != null) {
+      if (isLocalDateTime) {
+        dateString = formula.getValue().equals(Formula.PLUS.getValue()) ? localDateTime.plusMonths(digital).format(formatter)
+            : localDateTime.minusMonths(digital).format(formatter);
+      } else {
+        dateString = formula.getValue().equals(Formula.PLUS.getValue()) ? zonedDateTime.plusMonths(digital).format(formatter)
+            : zonedDateTime.minusMonths(digital).format(formatter);
+      }
+    }
+    return dateString;
+  }
+
+  /**
+   * Calculate date time month
+   * 
+   * @author eGroupAI
+   *
+   * @param localDateTime
+   * @param zonedDateTime
+   * @param formula
+   * @param formate
+   * @param digital
+   * @param isLocalDateTime
+   * @param zone
+   * @return
+   */
+  private String caculateYears(LocalDateTime localDateTime, ZonedDateTime zonedDateTime, DateTimeFormatter formatter, Formula formula, Long digital,
+      boolean isLocalDateTime, Zone zone) {
+    String dateString = null;
+    if (localDateTime != null && formula != null && formatter != null && digital != null && zone != null) {
+      if (isLocalDateTime) {
+        dateString = formula.getValue().equals(Formula.PLUS.getValue()) ? localDateTime.plusYears(digital).format(formatter)
+            : localDateTime.minusYears(digital).format(formatter);
+      } else {
+        dateString = formula.getValue().equals(Formula.PLUS.getValue()) ? zonedDateTime.plusYears(digital).format(formatter)
+            : zonedDateTime.minusYears(digital).format(formatter);
+      }
+    }
+    return dateString;
+  }
+
+  /**
+   * 
+   * @author eGroupAI Team Get the duration by time
+   * @param startTimeString
+   * @param endTimeString
+   * @param formate
+   * @param duration_
+   * @return
+   */
+  public Integer getDuration(String startTimeString, String endTimeString, Formate formate, Duration_ duration_) {
+    int count = 0;
+    if (attributeCheck.stringsNotNull(startTimeString, endTimeString)) {
+      final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formate.getValue());
+      LocalDateTime localDateStartTime;
+      LocalDateTime localDateEndTime;
+      if (formate.getValue().equals(Formate.YMD.getValue()) || formate.getValue().equals(Formate.YMD_.getValue())) {
+        LocalDate localDateStartDate = LocalDate.parse(startTimeString, formatter);
+        LocalDate localDateEndDate = LocalDate.parse(endTimeString, formatter);
+        localDateStartTime = localDateStartDate.atStartOfDay();
+        localDateEndTime = localDateEndDate.atStartOfDay();
+      } else {
+        localDateStartTime = LocalDateTime.parse(startTimeString, formatter);
+        localDateEndTime = LocalDateTime.parse(endTimeString, formatter);
+      }
+      switch (duration_.getValue()) {
+        case "Nanos":
+          count = (int) java.time.Duration.between(localDateStartTime, localDateEndTime).toNanos();
+          break;
+        case "Millis":
+          count = (int) java.time.Duration.between(localDateStartTime, localDateEndTime).toMillis();
+          break;
+        case "Minutes":
+          count = (int) java.time.Duration.between(localDateStartTime, localDateEndTime).toMinutes();
+          break;
+        case "Hours":
+          count = (int) java.time.Duration.between(localDateStartTime, localDateEndTime).toHours();
+          break;
+        case "Days":
+          count = (int) java.time.Duration.between(localDateStartTime, localDateEndTime).toDays();
+          break;
+        default:
+          break;
+      }
+    }
+    return count;
+  }
+
+  /**
+   * Convert date to string
+   * 
+   * @author eGroupAI
+   *
+   * @param formate
+   * @param date
+   * @return
+   */
+  public String toString(Formate formate, Date date) {
+    String dateString = null;
+    if (date != null) {
+      final SimpleDateFormat formatter = new SimpleDateFormat(formate.getValue());
+      dateString = formatter.format(date);
+    }
+    return dateString;
+  }
+
+  /**
+   * Check date string formate
+   * 
+   * @author eGroupAI
+   *
+   * @param dateString
+   * @param formate
+   * @return
+   */
+  public boolean checkFormat(String dateString, Formate formate) {
+    boolean flag = true;
+    if (formate != null && attributeCheck.stringsNotNull(dateString)) {
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formate.getValue());
+      simpleDateFormat.setLenient(false);
+      try {
+        // if not valid, it will throw ParseException
+        simpleDateFormat.parse(dateString);
+      } catch (ParseException e) {
+        flag = false;
+      }
+    } else {
+      flag = false;
+    }
+    return flag;
+  }
+
+  /**
+   * Get year and month long time
+   * 
+   * @author eGroupAI
+   *
+   * @param date
+   * @return
+   */
+  public int getYearMonthLong(Date date) {
+    int count = 0;
+    if (date != null) {
+      Calendar calder = Calendar.getInstance();
+      calder.setTime(date);
+      int year = calder.get(Calendar.YEAR);
+      int month = calder.get(Calendar.MONTH);
+      count = year * 100 + month;
+    }
+    return count;
+  }
 }
