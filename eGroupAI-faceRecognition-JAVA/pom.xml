@@ -26,7 +26,7 @@
 		<com.fasterxml.jackson.core.version>2.9.8</com.fasterxml.jackson.core.version>
 		<javax.ws.rs.version>2.1</javax.ws.rs.version>
 		<com.googlecode.libphonenumber.version>8.10.20</com.googlecode.libphonenumber.version>
-		<ch.qos.logback.version>1.1.11</ch.qos.logback.version>
+		<ch.qos.logback.version>1.2.0</ch.qos.logback.version>
 		<org.jboss.resteasy.version>3.6.3.Final</org.jboss.resteasy.version>
 		<javax.servlet.version>2.5</javax.servlet.version>
 		<org.slf4j.version>1.7.28</org.slf4j.version>
