@@ -5,7 +5,7 @@
 
 # QuickStart
 * [QuickStart Document](https://reurl.cc/Y6r9N4)
-* [eGroupAI【Tutorial】│ Face Recognition SDK - Quick Start by JAVA](https://reurl.cc/Z759b3)
+* [eGroupAI【Tutorial】│ Face Recognition SDK - Quick Start by JAVA](https://www.youtube.com/watch?v=HHP_JW5pQec)
    * Clone Project
    * Copy project env into project
    * Import Project
